@@ -1,0 +1,36 @@
+---
+- name: Install zsh
+  package:
+    name: zsh
+    state: present
+  become: yes
+  tags:
+  - zsh
+  - devel
+
+- name: Symlink main zsh dotfile
+  file:
+    src: "{{ role_path }}/files/zshrc"
+    dest: ${HOME}/.zshrc
+    state: link
+    force: yes
+  tags:
+  - dotfiles
+  - zsh
+  - devel
+
+- name: Install oh-my-zsh
+  shell:
+    cmd: "bash -c $(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  tags:
+  - zsh
+  - devel
+
+- name: Change default shell to zsh
+  user:
+    name: "{{ ansible_env.USER }}"
+    shell: /usr/bin/zsh
+  become: yes
+  tags:
+  - zsh
+  - devel
