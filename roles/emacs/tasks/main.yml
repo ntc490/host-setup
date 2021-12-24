@@ -1,0 +1,19 @@
+---
+- name: Install emacs
+  package:
+    name: emacs
+    state: present
+  become: yes
+  tags:
+  - emacs
+  - devel
+  - editors
+
+- name: Install Prelude Mode
+  git:
+    repo: https://github.com/ntc490/prelude.git
+    dest: ${HOME}/.emacs.d2
+  tags:
+  - emacs
+  - devel
+  - editors
