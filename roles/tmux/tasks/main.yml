@@ -1,0 +1,17 @@
+---
+- name: Install tmux
+  package:
+    name: tmux
+    state: present
+  become: yes
+  tags: tmux
+
+- name: Symlink tmux config
+  file:
+    src: "{{ role_path }}/files/tmux.conf"
+    dest: ${HOME}/.tmux.conf
+    state: link
+    force: yes
+  tags:
+  - dotfiles
+  - tmux
