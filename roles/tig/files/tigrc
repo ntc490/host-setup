@@ -1,0 +1,9 @@
+set line-graphics = utf-8
+set show-changes = false
+
+set main-view    = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
+
+bind generic <ESC><LT> move-first-line
+bind generic <ESC>> move-last-line
+bind generic <C-v> move-page-down
+bind generic <ESC>v move-page-up

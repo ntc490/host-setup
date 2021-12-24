@@ -1,0 +1,17 @@
+---
+- name: Install tig
+  package:
+    name: tig
+    state: present
+  become: yes
+  tags: tig
+
+- name: Symlink tig config
+  file:
+    src: "{{ role_path }}/files/tigrc"
+    dest: ${HOME}/.tigrc
+    state: link
+    force: yes
+  tags:
+  - dotfiles
+  - tig
