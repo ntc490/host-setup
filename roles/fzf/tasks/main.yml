@@ -1,0 +1,10 @@
+---
+- name: Copy fuzzy search binary to home bin dir
+  copy:
+    src: "{{ role_path }}/files/linux-amd64/fzf"
+    dest: ${HOME}/bin/fzf
+    mode: 0755
+  tags:
+    - fzf
+    - devel
+

@@ -1,0 +1,12 @@
+---
+- name: Install clang tidy and format
+  package:
+    name:
+      - clang-format
+      - clang-tidy
+    state: present
+  become: yes
+  tags:
+    - clang-tools
+    - devel
+

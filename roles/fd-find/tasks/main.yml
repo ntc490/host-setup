@@ -1,0 +1,8 @@
+---
+- name: Install fd find utility from package
+  become: yes
+  apt:
+    deb: "{{ role_path }}/files/linux-amd64/fd_8.3.1_amd64.deb"
+  tags:
+    - fd-find
+    - devel

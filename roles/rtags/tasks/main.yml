@@ -1,0 +1,12 @@
+---
+- include_tasks: debian_rtags.yml
+  when: ansible_os_family == "Debian"
+  tags:
+    - rtags
+    - devel
+
+- include_tasks: archlinux_rtags.yml
+  when: ansible_os_family == "Archlinux"
+  tags:
+    - rtags
+    - devel

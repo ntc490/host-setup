@@ -1,0 +1,9 @@
+---
+- name: Install silver searcher
+  package:
+    name: silversearcher-ag
+    state: present
+  become: yes
+  tags:
+    - ag
+    - devel

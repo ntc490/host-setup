@@ -1,0 +1,21 @@
+---
+- name: Install docker
+  become: yes
+  package:
+    name: docker
+    state: present
+  tags:
+    - docker
+    - devel
+    - cloud
+
+- name: Add current user '{{ ansible_user_id }}' to docker group
+  become:
+  user:
+    name: '{{ ansible_user_id }}'
+    groups: docker
+    append: yes
+  tags:
+    - docker
+    - devel
+    - cloud

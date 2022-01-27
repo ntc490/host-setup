@@ -1,0 +1,10 @@
+---
+- name: Copy godef to home binary dir
+  copy:
+    src: "{{ role_path }}/files/linux-amd64/godef"
+    dest: ${HOME}/bin/godef
+    mode: 0755
+  tags:
+    - godef
+    - devel
+

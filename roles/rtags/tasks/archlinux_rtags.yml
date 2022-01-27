@@ -1,0 +1,9 @@
+# Manjaro has a package for this
+- name: Install rtags package
+  become: yes
+  package:
+    name: rtags
+    state: present
+  tags:
+    - rtags
+    - devel
