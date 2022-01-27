@@ -5,26 +5,35 @@
     state: present
   become: yes
   tags:
-  - zsh
-  - devel
+    - zsh
+    - devel
 
-- name: Symlink main zsh dotfile
-  file:
-    src: "{{ role_path }}/files/zshrc"
-    dest: ${HOME}/.zshrc
-    state: link
-    force: yes
+- name: Install neofetch
+  package:
+    name: neofetch
+    state: present
+  become: yes
   tags:
-  - dotfiles
-  - zsh
-  - devel
+    - neofetch
+    - devel
 
 - name: Install oh-my-zsh
-  shell:
-    cmd: "bash -c $(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: ~/.oh-my-zsh
   tags:
-  - zsh
-  - devel
+    - oh-my-zsh
+    - devel
+
+- name: Copy main zsh dotfile
+  copy:
+    src: "{{ role_path }}/files/zshrc"
+    dest: ${HOME}/.zshrc
+    backup: yes
+  tags:
+    - dotfiles
+    - zsh
+    - devel
 
 - name: Change default shell to zsh
   user:
@@ -32,5 +41,5 @@
     shell: /usr/bin/zsh
   become: yes
   tags:
-  - zsh
-  - devel
+    - zsh
+    - devel
