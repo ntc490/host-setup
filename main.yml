@@ -8,3 +8,12 @@
   - tig
   - emacs
   - screen
+  tasks:
+  - name: Misc packages I use
+    become: yes
+    apt:
+      pkg:
+      - silversearcher-ag
+      state: latest
+      update_cache: yes
+
