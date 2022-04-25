@@ -4,6 +4,7 @@
   roles:
   - tmux
   - zsh
+  - zsh-autosuggestions
   - tig
   - emacs
   - screen
