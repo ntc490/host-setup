@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Install development packages I commonly use
+    become: yes
+    apt:
+      pkg:
+      - build-essential
+      - net-tools
+      - doxygen
+      - graphviz
+      - autoconf
+      - libtool
+      - cmake
+      - clang-tidy
+      - clang-format
+      - pkg-config
+      state: latest
+      update_cache: yes
