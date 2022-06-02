@@ -1,9 +1,30 @@
 ---
-- name: Install silver searcher
+- name: Install silver searcher for Debian
   package:
     name: silversearcher-ag
     state: present
   become: yes
+  when: ansible_os_family == "Debian"
+  tags:
+    - ag
+    - devel
+
+- name: Install silver searcher for Redhat
+  package:
+    name: the_silver_searcher
+    state: present
+  become: yes
+  when: ansible_os_family == "RedHat"
+  tags:
+    - ag
+    - devel
+
+- name: Install silver searcher for MacOS
+  package:
+    name: silversearcher-ag
+    state: present
+  become: yes
+  when: ansible_os_family == "Darwin"
   tags:
     - ag
     - devel
