@@ -11,7 +11,11 @@ fi
 if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
     source /usr/share/zsh/manjaro-zsh-prompt
 fi
-neofetch
+
+NEOFETCH=`which neofetch 2> /dev/null`
+if [ ! -z "${NEOFETCH}" ]; then
+    ${NEOFETCH}
+fi
 
 plugins=(git git-extras zsh-autosuggestions tmux history extract colorize docker z)
 
