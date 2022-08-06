@@ -1,16 +1,14 @@
 ---
-# Tested on Ubuntu 18.04 and 20.04 docker containers
 - name: Install dependencies to build rtags
   become: yes
-  apt:
+  yum:
     pkg:
       - git
       - cmake
-      - build-essential
-      - libclang-dev
-      - llvm-dev
-      - libz-dev
-      - pkg-config
+      - clang-devel
+      - llvm-devel
+      - libzstd-devel
+      - pkgconf-pkg-config
     state: latest
     update_cache: yes
   tags:

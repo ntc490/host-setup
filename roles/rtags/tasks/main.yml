@@ -10,3 +10,10 @@
   tags:
     - rtags
     - devel
+
+- include_tasks: redhat_rtags.yml
+  when: ansible_os_family == "RedHat"
+  tags:
+    - rtags
+    - devel
+
