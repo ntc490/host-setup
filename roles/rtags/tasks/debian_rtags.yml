@@ -35,7 +35,7 @@
     - devel
 
 - name: Create build system for rtags using cmake
-  shell: cd "{{ role_path }}/files/src/build" && cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  shell: cd "{{ role_path }}/files/src/build" && cmake -DCMAKE_INSTALL_PREFIX=${HOME}/.local ..
   tags:
     - rtags
     - devel
