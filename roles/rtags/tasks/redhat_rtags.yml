@@ -33,18 +33,18 @@
     - devel
 
 - name: Create build system for rtags using cmake
-  shell: cd "{{ role_path }}/files/src/build" && cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  shell: cd "{{ role_path }}/files/src/build" && cmake -DCMAKE_INSTALL_PREFIX=${HOME}/.local ..
   tags:
     - rtags
     - devel
 
-#- name: Build and install rtags package
-#  become: yes
-#  make:
-#    chdir: "{{ role_path }}/files/src/build"
-#    target: install
-#    params:
-#      NUM_THREADS: 5
-#  tags:
-#    - rtags
-#    - devel
+- name: Build and install rtags package
+  become: yes
+  make:
+    chdir: "{{ role_path }}/files/src/build"
+    target: install
+    params:
+      NUM_THREADS: 5
+  tags:
+    - rtags
+    - devel
