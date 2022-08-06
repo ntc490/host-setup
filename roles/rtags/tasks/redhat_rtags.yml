@@ -1,0 +1,50 @@
+---
+- name: Install dependencies to build rtags
+  become: yes
+  yum:
+    pkg:
+      - git
+      - cmake
+      - clang-devel
+      - llvm-devel
+      - libzstd-devel
+      - pkgconf-pkg-config
+    state: latest
+    update_cache: yes
+  tags:
+    - rtags
+    - devel
+
+- name: Clone rtags repo
+  git:
+    repo: https://github.com/Andersbakken/rtags.git
+    dest: "{{ role_path }}/files/src"
+    recursive: yes
+  tags:
+    - rtags
+    - devel
+
+- name: Create build dir in rtags repo
+  file:
+    state: directory
+    path: "{{ role_path }}/files/src/build"
+  tags:
+    - rtags
+    - devel
+
+- name: Create build system for rtags using cmake
+  shell: cd "{{ role_path }}/files/src/build" && cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  tags:
+    - rtags
+    - devel
+
+#- name: Build and install rtags package
+#  become: yes
+#  make:
+#    chdir: "{{ role_path }}/files/src/build"
+#    target: install
+#    params:
+#      NUM_THREADS: 5
+#  tags:
+#    - rtags
+#    - devel
