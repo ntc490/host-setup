@@ -13,7 +13,7 @@ if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
 fi
 
 NEOFETCH=`which neofetch 2> /dev/null`
-if [ ! -z "${NEOFETCH}" ]; then
+if [ $? -eq 0 ]; then
     ${NEOFETCH}
 fi
 
