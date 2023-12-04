@@ -16,6 +16,18 @@ Here's an example:
 
     ansible-playbook -t ssh-config --ask-sudo-pass main.yml
 
+### Rocky9
+
+In order to get Rocky9 working, you have to run some commands before
+the 'main' Ansible Playbook will run. Maybe I will automate this in
+the future. However, it's a pretty fundamental requirement and doesn't
+appear to be easy to setup via Ansible.
+
+    sudo dnf config-manager --set-enabled crb
+    sudo dnf install \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
+        https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+
 ### Modules
 
 See the roles directory structure to get an idea what's included in
