@@ -1,0 +1,11 @@
+---
+- name: Install fd find utility from package
+  become: yes
+  yum:
+    pkg:
+      - fd-find
+    state: latest
+    update_cache: yes
+  tags:
+    - rtags
+    - devel
