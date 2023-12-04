@@ -13,6 +13,7 @@
   git:
     repo: https://github.com/ntc490/prelude.git
     dest: ${HOME}/.emacs.d
+  ignore_errors: yes
   tags:
   - emacs
   - devel
