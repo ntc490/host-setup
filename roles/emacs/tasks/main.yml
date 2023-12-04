@@ -12,7 +12,7 @@
 - name: Install Prelude Mode
   git:
     repo: https://github.com/ntc490/prelude.git
-    dest: ${HOME}/.emacs.d2
+    dest: ${HOME}/.emacs.d
   tags:
   - emacs
   - devel
