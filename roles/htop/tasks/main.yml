@@ -1,0 +1,9 @@
+---
+- name: Install htop
+  become: yes
+  ansible.builtin.package:
+    name: htop
+    state: present
+  tags:
+    - htop
+    - devel
