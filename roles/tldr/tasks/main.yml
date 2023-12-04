@@ -1,0 +1,8 @@
+- name: Install tldr
+  become: yes
+  ansible.builtin.package:
+    name: tldr
+    state: present
+  tags:
+    - tldr
+    - devel
