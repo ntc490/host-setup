@@ -17,7 +17,7 @@ if [ $? -eq 0 ]; then
     ${NEOFETCH}
 fi
 
-plugins=(git git-extras zsh-autosuggestions tmux history extract colorize docker z)
+plugins=(git git-extras zsh-autosuggestions zsh-syntax-highlighting tmux history extract colorize docker z)
 
 source $ZSH/oh-my-zsh.sh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

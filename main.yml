@@ -5,6 +5,7 @@
   - tmux
   - zsh
   - zsh-autosuggestions
+  - zsh-syntax-highlighting
   - tig
   - emacs
   - screen
