@@ -10,3 +10,8 @@ size = 18.0
 
 [selection]
 save_to_clipboard = true
+
+[keyboard]
+bindings = [
+    { key = "/", mods = "Control", chars = "\U0000001f" },
+]
