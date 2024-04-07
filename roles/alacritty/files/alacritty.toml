@@ -1,0 +1,12 @@
+[window]
+decorations = "buttonless"
+option_as_alt = "OnlyLeft"
+padding = { x = 10, y = 10 }
+opacity = 0.72
+
+[font]
+normal = { family = "SFMono Nerd Font", style = "Regular" }
+size = 18.0
+
+[selection]
+save_to_clipboard = true
