@@ -5,7 +5,6 @@ local my_opacity = 0.68
 function toggler(window, pane)
    local overrides = window:get_config_overrides() or {}
    if overrides.window_background_opacity then
-      wezterm.log_info 'repeat change-up!'
       if overrides.window_background_opacity < 1 then
          overrides.window_background_opacity = 1
          overrides.text_background_opacity = 1
@@ -14,7 +13,6 @@ function toggler(window, pane)
          overrides.text_background_opacity = my_opacity
       end
    else
-      wezterm.log_info 'first time override!'
       if config.window_background_opacity == nil then
          overrides.window_background_opacity = my_opacity
          overrides.text_background_opacity = my_opacity
@@ -39,7 +37,6 @@ config.adjust_window_size_when_changing_font_size = false
 config.window_decorations = "RESIZE"
 config.keys = {
    { key = 'u', mods = 'SUPER', action = wezterm.action_callback(function(win, pane)
-           wezterm.log_info 'callback!'
            toggler(win, pane)
    end), },
 }
