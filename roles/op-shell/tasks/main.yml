@@ -1,0 +1,17 @@
+---
+- name: Install OP shell commands
+  become: yes
+  package:
+    state: present
+    name:
+      - tmux
+      - tig
+      - exa
+      - bat
+      - fzf
+      - htop
+      - btop
+      - tldr
+
+# ag - complex enough to warrant its own role
+# fd - complex enough to warrant its own role

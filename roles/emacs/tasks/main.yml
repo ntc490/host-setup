@@ -1,7 +1,7 @@
 ---
 - name: Install emacs
   package:
-    name: emacs
+    name: emacs-nox
     state: present
   become: yes
   tags:
@@ -15,6 +15,7 @@
     dest: ${HOME}/.emacs.d
   ignore_errors: yes
   tags:
+  - prelude
   - emacs
   - devel
   - editors

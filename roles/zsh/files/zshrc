@@ -33,3 +33,8 @@ fi
 #export EDITOR='vim'
 export CMAKE_DEB="-DCMAKE_EXPORT_COMPILE_COMMANDS=Yes -DCMAKE_BUILD_TYPE=Debug"
 
+alias ls='exa --color=always --icons=always --group-directories-first --git'
+alias l='exa -lah --color=always --icons=always --group-directories-first --git'
+alias la='exa -la --color=always --icons=always --group-directories-first --git'
+alias ll='exa -l --color=always --icons=always --group-directories-first --git'
+alias lt='exa -aT --color=always --icons=always --group-directories-first --git'

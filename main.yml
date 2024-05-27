@@ -2,14 +2,9 @@
 - hosts: localhost
   connection: local
   roles:
-  - tmux
   - zsh
-  - tig
+  - op-shell
   - emacs
-  - screen
   - ag
   - fd-find
-  - tldr
-  - fzf
-  - htop
-  - btop
+  - screen
