@@ -5,6 +5,18 @@ uses Ansible playbooks and roles.  You could modify the playbook to
 operate on remote machines, but I have written them for use on
 localhost.
 
+### Supported Distros
+
+These distros should be well supported/tested:
+
+- Arch
+- Rocky9
+- MacOS via brew
+
+I don't use these distros as often. Use tags to skip things, etc.
+
+- Ubuntu
+
 ### Including/Excluding Roles
 
 You can use Ansible tags to pick one or more items to setup on your
