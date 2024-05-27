@@ -1,8 +1,0 @@
----
-- name: Clone zsh-autosuggestions repo to oh my zsh dir
-  git:
-    repo: https://github.com/zsh-users/zsh-autosuggestions
-    dest: ${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions
-  tags:
-    - zsh-autosuggestions
-    - devel
