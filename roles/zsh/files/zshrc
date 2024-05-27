@@ -12,9 +12,9 @@ if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
     source /usr/share/zsh/manjaro-zsh-prompt
 fi
 
-NEOFETCH=`which neofetch 2> /dev/null`
+FASTFETCH=`which fastfetch 2> /dev/null`
 if [ $? -eq 0 ]; then
-    ${NEOFETCH}
+    ${FASTFETCH}
 fi
 
 plugins=(git git-extras zsh-autosuggestions zsh-syntax-highlighting tmux history extract colorize docker z)

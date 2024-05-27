@@ -8,13 +8,13 @@
     - zsh
     - devel
 
-- name: Install neofetch
+- name: Install fastfetch
   package:
-    name: neofetch
+    name: fastfetch
     state: present
   become: yes
   tags:
-    - neofetch
+    - fastfetch
     - devel
 
 - name: Install oh-my-zsh
