@@ -12,6 +12,8 @@
       - htop
       - btop
       - tldr
+  tags:
+    - opshell
 
 # ag - complex enough to warrant its own role
 # fd - complex enough to warrant its own role
