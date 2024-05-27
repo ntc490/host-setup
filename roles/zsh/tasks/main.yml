@@ -57,5 +57,6 @@
     shell: /usr/bin/zsh
   become: yes
   tags:
+    - zsh-change
     - zsh
     - devel
