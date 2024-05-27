@@ -38,3 +38,5 @@ alias l='exa -lah --color=always --icons=always --group-directories-first --git'
 alias la='exa -la --color=always --icons=always --group-directories-first --git'
 alias ll='exa -l --color=always --icons=always --group-directories-first --git'
 alias lt='exa -aT --color=always --icons=always --group-directories-first --git'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
