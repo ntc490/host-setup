@@ -1,71 +1,58 @@
+* grub install in chroot env
+ - Install os-prober, then run grub configuration again
+* Extra Packages
+     sudo pacman -S wezterm ansible exa fd-find ag firefox p7zip rsync tar gzip emacs-nox htop less bat git alsa-utils
+ - fonts for exa icons and stuff
+     sudo pacman -S ttf-jetbrains-mono-nerd
+ - Bluetooth - was able to pair ear buds in KDE Desktop
+     sudo pacman -S bluez blueman bluez-utils
+     sudo systemctl enable bluetooth
+     sudo systemctl start bluetooth
+* Misc
+ - yay
+     git clone https://aur.archlinux.org/yay
+	 cd yay
+	 makepkg -si
+ - vscode
+     yay -S visual-studio-code-bin
+ - microcode updates
+     sudo pacman -S intel-ucode
+	 sudo grub-mkconfig -o /boot/grub/grub.cfg
+ - LTS kernel as a backup
+     sudo pacman -S lts-kernel lts-kernel-headers
+ - firewall?
+     sudo pacman -S ufw
+ - preload for faster app startups
+     sudo 
+	 enable service
+ - auto-cpufreq
+     git clone 
+ - Japanese sddm config. Add /etc/default/locale with the following lines:
+     LANG="ja_JP.UTF-8"
+     LC_ALL="ja_JP.UTF-8"
+ - Japanese shell setup fonts
+   - Uncomment ja_JP.utf8 from /etc/locale.gen and run locale-gen
+   - Install fonts
+       sudo pacman -S noto-fonts-cjk
+ - openssh SSH agent setup
 * Clipboard
  - Installed gpaste?
 * Sound
- - installed pulseaudio, pulseaudio-alsa, alsa-utils, pavucontrol
- - Looked at journalctl output and found link to
- - Download and install driver, then reboot:
-   wget https://github.com/thesofproject/sof-bin/releases/download/v2024.09/sof-bin-2024.09.tar.gz
-   tar xzvf sof-bin-2024.09.tar.gz
-   cd sof-bin-2024.09
-   sudo ./install
-   sudo reboot
- - Make buttons available
-* Special Keyboard Buttons
- - [X] Brightness control
-   - had to install brightnessctl   
- - [X] key bindings for sound control
-   - use 'amixer set Master toggle', 'amixer -c 0 set Master 3dB+', 'amixer -c 0 set Master 3dB-' instead of pmd
-* Suspend/hybernate/restore
-  - be patient - press mouse buttons and wait for things to come back?
+ - Did default install w/o sof-firmware with default audio options. There was no device at first. Installed sof firmware and everything came up. At one point was using sof drivers from git repo. Didn't work last time I tried. pacman package works great.
+     sudo pacman -S sof-firmware
 * Wallpaper
- - cloned personal github repo
- - setup hyprpaper
- - [ ] need to be able to have the wallpaper change periodically
- - [ ] get new wallpapers from Mac machines
- - [X] installed waypaper. Not sure if we needed this. Used yay.
- - [X] installed swww to see what it's like
-* Dark Mode for Apps
- - env variable?
-* Waybar
- - [ ] Fix icon for charging battery display
- - [ ] Change 'Apps' to search icon
- - [ ] Add desktop indicator on left
- - grabbed sample config off internet
- - needs more work - want minimalistic look and feel
+ - clone personal Wallpaper from github repo
+     github clone git@github.com:ntc490/wallpaper ~/Wallpaper
 * Google-Chrome
  - installed via manual git clone and `makepkg -is`
  - fonts suck (when hyprland config isn't right)
 * Installed ansible and ran host-setup main.yml
- - also installed some other fonts. Not sure if that helped:
-   - gnu-free-fonts
  - ensured I have latest/greatest emacs setup
-* Hyprland
- - changed hyprland config:
-   - Got rid of warning
-   - Enabled a few exec-once lines
-   - Modified `misc` section to get rid of stock wallpaper and
-     hyprland logo
-   - Enabled natural_scroll
-   - Changed 'auto' to '1' in monitor config line. Fixed font issues
-     in Chrome, Wezterm, etc
-   - Enable workspace gesture change
-   - make menu bar shorter?
- - Add Jetbrains Nerd Font Mono via pacman     
- - install hyprpaper
-   - add lines to load one of the wallpapers from my repo
-   - change the default line's display to "" and point at pic
-   - need to figure out how to make it work better
- - changed opacity in hyperland.conf. How to exclude some windows from
-   opacity change?
-** Beautiful stuff: https://github.com/mylinuxforwork/dotfiles
- - [ ] sddm conifg
- - [X] rofi setup
- - [X] waybar setup
 * Dark Theme Support for Chrome
  - Go into browser settings and choose dark theme
  - Youtube will follow suit with the "device theme" from the Browser setting
  - Works for Firefox and Chrome
-* Browser Plugins
+* Browser Setup
  - [X] Bitwarden
  - [X] Ad-blocker
  - [ ] vim keys
@@ -73,20 +60,8 @@
 * Terminal
  - Wezterm doesn't seem to be well supported in hyprland? Need to set
    'config.wayland_enable = false'
- - XXX Don't use kitty instead as it doesn't do text background
-   transparency
+ - Needed to install nerd font
 * Japanese setup
- - Install japanese fonts
- - Uncomment ja_JP.utf8 from /etc/locale.gen and run locale-gen
  - Could change /etc/locale.conf
  - `LANG=ja_JP.utf8 date` will show in Japanese, for example
  - Change the language of Firefox browser in its config page
-* Kitty config
- - fonts - installed ttf-firacode-nerd for kitty config I scraped off net
- - 'ctrl-shift-a' and then '1' to make completely opaque
-   'ctrl-shift-a' and then 'd' to go back to default opacity
- - ctrl key can't be continually pressed
- - image display in shell: `kitten icat image.jpg`
- - used in emacs?
- 
-   
