@@ -1,5 +1,4 @@
 * TODO
-  - OpenSSH agent setup
   - Google Drive
   - Teams?
   - Word Processor
@@ -55,7 +54,10 @@
    - Uncomment ja_JP.utf8 from /etc/locale.gen and run locale-gen
    - Install fonts
        sudo pacman -S noto-fonts-cjk
- - openssh SSH agent setup
+ - openssh SSH agent setup. Must set ENV variable in .zshrc as shown below. Then enable service.
+     export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+     systemctl --user enable ssh-agent
+	 systemctl --user start ssh-agent
 * Clipboard
  - Installed gpaste?
 * Sound
