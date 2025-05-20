@@ -17,6 +17,10 @@
      sudo systemctl enable bluetooth
      sudo systemctl start bluetooth
 * Misc
+ - install reflector and speedup pacman
+     sudo pacman -S reflector
+	 sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+	 sudo reflector --verbose --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
  - yay
      git clone https://aur.archlinux.org/yay
 	 cd yay
