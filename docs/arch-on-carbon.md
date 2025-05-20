@@ -58,8 +58,6 @@
      export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
      systemctl --user enable ssh-agent
 	 systemctl --user start ssh-agent
-* Clipboard
- - Installed gpaste?
 * Sound
  - Did default install w/o sof-firmware with default audio options. There was no device at first. Installed sof firmware and everything came up. At one point was using sof drivers from git repo. Didn't work last time I tried. pacman package works great.
      sudo pacman -S sof-firmware
