@@ -5,7 +5,6 @@
   - Word Processor
   - Japanese entry
   - Emacs keys in chromium? patch?
-  - Keyboard remapping for home row keys?
 * grub install in chroot env
  - Install os-prober, then run grub configuration again
 * Extra Packages
@@ -25,6 +24,10 @@
      git clone https://aur.archlinux.org/yay
 	 cd yay
 	 makepkg -si
+ - remap keyboard for home-row mods using kanata. Put kanata.kbd in /etc and start service.
+     yay kanata
+	 sudo systemctl enable kanata
+	 sudo systemctl start kanata
  - vscode
      yay -S visual-studio-code-bin
  - microcode updates
