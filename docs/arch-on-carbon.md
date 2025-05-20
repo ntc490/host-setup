@@ -1,3 +1,11 @@
+* TODO
+  - OpenSSH agent setup
+  - Google Drive
+  - Teams?
+  - Word Processor
+  - Japanese entry
+  - Emacs keys in chromium? patch?
+  - Keyboard remapping for home row keys?
 * grub install in chroot env
  - Install os-prober, then run grub configuration again
 * Extra Packages
