@@ -23,8 +23,9 @@
  - firewall?
      sudo pacman -S ufw
  - preload for faster app startups
-     sudo 
-	 enable service
+     yay -S preload
+	 sudo systemctl enable preload
+	 sudo systemctl start preload
  - auto-cpufreq
      git clone 
  - Japanese sddm config. Add /etc/default/locale with the following lines:
