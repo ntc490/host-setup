@@ -28,6 +28,11 @@
      yay kanata
 	 sudo systemctl enable kanata
 	 sudo systemctl start kanata
+ - install obsidian from AUR
+ - install chromium
+   - install bitwarden plugin
+   - install adblock plugin
+   - install video speed controller plugin
  - vscode
      yay -S visual-studio-code-bin
  - microcode updates
