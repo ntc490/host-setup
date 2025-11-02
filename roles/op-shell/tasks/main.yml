@@ -6,12 +6,11 @@
     name:
       - tmux
       - tig
-      - exa
+      - eza
       - bat
       - fzf
       - htop
       - btop
-      - tldr
   tags:
     - opshell
 
