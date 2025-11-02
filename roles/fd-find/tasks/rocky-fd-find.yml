@@ -7,5 +7,5 @@
     state: latest
     update_cache: yes
   tags:
-    - rtags
+    - fd-find
     - devel

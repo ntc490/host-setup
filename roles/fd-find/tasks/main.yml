@@ -1,12 +1,6 @@
 ---
 - include_tasks: debian-fd-find.yml
   when: ansible_os_family == "Debian"
-  tags:
-    - rtags
-    - devel
 
 - include_tasks: rocky-fd-find.yml
   when: ansible_distribution == "Rocky"
-  tags:
-    - rtags
-    - devel
