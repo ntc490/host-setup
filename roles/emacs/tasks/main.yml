@@ -9,13 +9,13 @@
   - devel
   - editors
 
-- name: Install Prelude Mode
+- name: Install Emacs Config
   git:
-    repo: https://github.com/ntc490/prelude.git
+    repo: https://github.com/ntc490/emacs.d
     dest: ${HOME}/.emacs.d
+    recursive: yes
   ignore_errors: yes
   tags:
-  - prelude
   - emacs
   - devel
   - editors
