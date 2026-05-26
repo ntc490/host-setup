@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Graphical Emacs (pgtk/Wayland build) + personal config, with its bundled
-# binaries compiled via make.
+# Graphical Emacs + personal config, with its bundled binaries compiled via make.
 source "$(dirname "$0")/../lib/common.sh"
-require_arch
+require_supported
 
-# emacs-wayland is the pure-GTK (pgtk) build: native Wayland, also works on X.
-install_pkgs emacs-wayland
+# Arch uses emacs-wayland (the pgtk build: native Wayland, also works on X);
+# Debian/RHEL use the plain `emacs` metapackage (graphical).
+install_tool emacs
 
 EMACS_D="$HOME/.emacs.d"
 clone_or_update https://github.com/ntc490/emacs.d "$EMACS_D" --recursive

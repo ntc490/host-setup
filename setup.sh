@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
-# Top-level entry point: set up this Arch machine from scratch.
+# Top-level entry point: set up this machine from scratch.
 #
-# Runs every script in install/ in a sensible order. Each script is
-# independently runnable and safe to re-run (pacman -S --needed, git pull
-# --rebase, stow --restow, guarded shell/group changes).
+# Supports Arch, Debian/Ubuntu, and Rocky/RHEL/Fedora. Runs every script in
+# install/ in a sensible order. Each script is independently runnable and safe
+# to re-run (--needed/idempotent installs, git pull --rebase, stow --restow,
+# guarded shell changes).
 #
 # Usage:
 #   ./setup.sh              # run everything
 #   ./setup.sh zsh emacs    # run only the named install scripts
 #
-# stow needs sudo for package installs, so you'll be prompted for your
-# password once pacman first runs.
+# Package installs need root, so you'll be prompted for sudo (unless already
+# root, e.g. in a container).
 
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 source "$HERE/lib/common.sh"
-require_arch
+require_supported
+log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 
 # Order matters a little: zsh first (sets up the shell + oh-my-zsh that the
 # z plugin and prompt expect), then the rest.
@@ -38,7 +40,9 @@ ALL=(
     tldr
 )
 
-# stow is needed by several scripts; install it up front.
+# Enable extra repos (EPEL/CRB on rhel) + refresh apt lists up front, then
+# install stow which several scripts need.
+prepare_repos
 ensure_stow
 
 scripts=("$@")

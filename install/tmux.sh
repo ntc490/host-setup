@@ -2,7 +2,7 @@
 # tmux + its .tmux.conf. (The package is also in op-shell; --needed makes the
 # duplicate install a no-op, and this keeps the script runnable on its own.)
 source "$(dirname "$0")/../lib/common.sh"
-require_arch
+require_supported
 
-install_pkgs tmux
+install_tool tmux
 stow_pkg tmux

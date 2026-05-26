@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # htop: interactive process viewer.
 source "$(dirname "$0")/../lib/common.sh"
-require_arch
+require_supported
 
-install_pkgs htop
+install_tool htop

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # bat: cat clone with syntax highlighting.
 source "$(dirname "$0")/../lib/common.sh"
-require_arch
+require_supported
 
-install_pkgs bat
+install_tool bat

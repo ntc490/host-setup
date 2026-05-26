@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # GNU screen + its .screenrc.
 source "$(dirname "$0")/../lib/common.sh"
-require_arch
+require_supported
 
-install_pkgs screen
+install_tool screen
 stow_pkg screen

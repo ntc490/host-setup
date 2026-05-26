@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # doxygen: source documentation generator.
 source "$(dirname "$0")/../lib/common.sh"
-require_arch
+require_supported
 
-install_pkgs doxygen
+install_tool doxygen
