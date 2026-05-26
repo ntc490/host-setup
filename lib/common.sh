@@ -35,8 +35,9 @@ clone_or_update() {
     if [[ -d "$dest/.git" ]]; then
         log "Updating $dest (git pull --rebase)"
         git -C "$dest" pull --rebase
-        [[ "$recursive" == "--recursive" ]] && \
+        if [[ "$recursive" == "--recursive" ]]; then
             git -C "$dest" submodule update --init --recursive
+        fi
     else
         log "Cloning $repo -> $dest"
         if [[ "$recursive" == "--recursive" ]]; then
