@@ -39,12 +39,12 @@ vendor/         bundled binaries / scripts that aren't config (godef, z.sh,
 
 - **zsh** — zsh, fastfetch, oh-my-zsh + autosuggestions/syntax-highlighting,
   `.zshrc`, and sets zsh as the login shell
-- **op-shell** — everyday tools: tmux, tig, eza, bat, fzf, htop, btop
 - **emacs** — graphical Emacs (`emacs-wayland`, the pgtk build) + my
   [emacs.d](https://github.com/ntc490/emacs.d) config, built with `make`
 - **ag** — the_silver_searcher
 - **fd** — fd
 - **screen / tmux / tig** — package + dotfile
+- **eza / bat / fzf / htop / btop** — everyday shell tools (package only)
 - **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
 - **rupa-z** — `z.sh` directory jumper into `~/bin`
 - **godef** — vendored Go symbol-locator binary into `~/bin`

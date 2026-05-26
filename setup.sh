@@ -22,13 +22,17 @@ require_arch
 # z plugin and prompt expect), then the rest.
 ALL=(
     zsh
-    op-shell
     emacs
     ag
     fd
     screen
     tmux
     tig
+    eza
+    bat
+    fzf
+    htop
+    btop
     wezterm
     rupa-z
     godef
