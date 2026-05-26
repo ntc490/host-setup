@@ -34,7 +34,6 @@ ALL=(
     htop
     btop
     wezterm
-    clang-tools
     dev-tools
     tldr
 )

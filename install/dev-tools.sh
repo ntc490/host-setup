@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
-# Development packages I commonly use (the old mydev.yml playbook).
-# Arch equivalents: base-devel covers build-essential/autoconf/libtool/pkgconf;
-# clang provides clang-format/clang-tidy.
+# dev-tools: a convenience GROUP, not a package. Runs the individual
+# development-tool install scripts (each is also runnable on its own, e.g.
+# `./setup.sh cmake`). This is the old mydev.yml set.
 source "$(dirname "$0")/../lib/common.sh"
-require_arch
 
-install_pkgs base-devel net-tools doxygen graphviz cmake clang
+HERE="$(cd "$(dirname "$0")" && pwd)"
+
+MEMBERS=(
+    base-devel
+    net-tools
+    doxygen
+    graphviz
+    cmake
+    clang-tools   # clang -> clang-format, clang-tidy
+)
+
+for m in "${MEMBERS[@]}"; do
+    log "----- $m -----"
+    "$HERE/${m}.sh"
+done

@@ -45,8 +45,10 @@ vendor/         bundled binaries / scripts that aren't config (wconf.py)
 - **screen / tmux / tig** — package + dotfile
 - **eza / bat / fzf / htop / btop** — everyday shell tools (package only)
 - **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
+- **base-devel / net-tools / doxygen / graphviz / cmake** — development packages
 - **clang-tools** — clang (clang-format, clang-tidy)
-- **dev-tools** — base-devel, net-tools, doxygen, graphviz, cmake, clang
+- **dev-tools** — a *group* (not a package) that runs base-devel, net-tools,
+  doxygen, graphviz, cmake, and clang-tools. Call it with `./setup.sh dev-tools`.
 - **tldr** — simplified community man pages
 
 ## Notes
