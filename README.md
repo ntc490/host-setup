@@ -31,8 +31,7 @@ lib/common.sh   shared helpers (logging, pacman, clone-or-update, stow, vendor)
 install/*.sh    one script per tool; each installs its package(s) and stows
                 its own dotfiles
 dotfiles/<pkg>/ GNU stow packages, laid out relative to $HOME
-vendor/         bundled binaries / scripts that aren't config (godef, z.sh,
-                wconf.py)
+vendor/         bundled binaries / scripts that aren't config (wconf.py)
 ```
 
 ## What gets installed
@@ -46,10 +45,7 @@ vendor/         bundled binaries / scripts that aren't config (godef, z.sh,
 - **screen / tmux / tig** — package + dotfile
 - **eza / bat / fzf / htop / btop** — everyday shell tools (package only)
 - **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
-- **rupa-z** — `z.sh` directory jumper into `~/bin`
-- **godef** — vendored Go symbol-locator binary into `~/bin`
 - **clang-tools** — clang (clang-format, clang-tidy)
-- **docker** — engine, enabled service, current user added to the docker group
 - **dev-tools** — base-devel, net-tools, doxygen, graphviz, cmake, clang
 - **tldr** — simplified community man pages
 

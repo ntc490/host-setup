@@ -34,10 +34,7 @@ ALL=(
     htop
     btop
     wezterm
-    rupa-z
-    godef
     clang-tools
-    docker
     dev-tools
     tldr
 )
