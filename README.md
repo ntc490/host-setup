@@ -1,59 +1,61 @@
-# Nathan's host-setup playbooks
+# Nathan's host-setup
 
-This repo consists of host configuration scripts and dotfiles.  It
-uses Ansible playbooks and roles.  You could modify the playbook to
-operate on remote machines, but I have written them for use on
-localhost.
+Bash scripts and dotfiles for reproducing my Arch Linux setup on a fresh
+machine. (This used to be an Ansible project; it was converted to plain bash
+since it only ever ran on localhost and only targets Arch now.)
 
-### Supported Distros
+## Usage
 
-These distros should be well supported/tested:
+```sh
+./setup.sh            # install and configure everything
+./setup.sh zsh emacs  # run only the named install scripts
+```
 
-- Arch
-- Rocky9
-- MacOS via brew
+`setup.sh` runs every script in `install/` in order. pacman will prompt for
+your sudo password the first time it installs something.
 
-I don't use these distros as often. Use tags to skip things, etc.
+Everything is safe to re-run:
 
-- Ubuntu
+- packages use `pacman -S --needed` (skips what's already installed),
+- git clones use `git pull --rebase`,
+- dotfiles are symlinked with `stow --restow` (and any pre-existing real file
+  is backed up to `<file>.bak.<timestamp>` before linking),
+- the shell change and docker group add are guarded so they only run when
+  needed.
 
-### Including/Excluding Roles
+## Layout
 
-You can use Ansible tags to pick one or more items to setup on your
-system, or to skip certain items using the --tags and --skip-tags
-switches.  Use different playbooks to select gross categories of
-things.
+```
+setup.sh        top-level orchestrator
+lib/common.sh   shared helpers (logging, pacman, clone-or-update, stow, vendor)
+install/*.sh    one script per tool; each installs its package(s) and stows
+                its own dotfiles
+dotfiles/<pkg>/ GNU stow packages, laid out relative to $HOME
+vendor/         bundled binaries / scripts that aren't config (godef, z.sh,
+                wconf.py)
+```
 
-Here's an example:
+## What gets installed
 
-    ansible-playbook -t ssh-config --ask-sudo-pass main.yml
+- **zsh** — zsh, fastfetch, oh-my-zsh + autosuggestions/syntax-highlighting,
+  `.zshrc`, and sets zsh as the login shell
+- **op-shell** — everyday tools: tmux, tig, eza, bat, fzf, htop, btop
+- **emacs** — graphical Emacs (`emacs-wayland`, the pgtk build) + my
+  [emacs.d](https://github.com/ntc490/emacs.d) config, built with `make`
+- **ag** — the_silver_searcher
+- **fd** — fd
+- **screen / tmux / tig** — package + dotfile
+- **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
+- **rupa-z** — `z.sh` directory jumper into `~/bin`
+- **godef** — vendored Go symbol-locator binary into `~/bin`
+- **clang-tools** — clang (clang-format, clang-tidy)
+- **docker** — engine, enabled service, current user added to the docker group
+- **dev-tools** — base-devel, net-tools, doxygen, graphviz, cmake, clang
+- **tldr** — simplified community man pages
 
-### Rocky9
+## Notes
 
-In order to get Rocky9 working, you have to run some commands before
-the 'main' Ansible Playbook will run. Maybe I will automate this in
-the future. However, it's a pretty fundamental requirement and doesn't
-appear to be easy to setup via Ansible.
-
-    sudo dnf config-manager --set-enabled crb
-    sudo dnf install \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
-        https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
-
-### Modules
-
-See the roles directory structure to get an idea what's included in
-this repo.  The bulk of things are defined as roles.  Groupings of
-roles can be selected by using different playbooks at the root level
-of this repo.
-
-* Packages such as tmux, emacs, etc and their dotfiles
-
-
-### Dependencies
-
-You'll need ansible on your system to make use of the playbooks and
-roles.  Use the following command, or an equivalent, on your machine
-to get this awesome tool.
-
-    sudo apt install ansible
+- Targets Arch only (`pacman`). The scripts abort on non-Arch systems.
+- `rtags` and `alacritty` from the old Ansible roles were intentionally dropped
+  (rtags is AUR-only; I've moved from alacritty to wezterm). They remain in git
+  history if needed.

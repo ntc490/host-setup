@@ -1,9 +1,0 @@
----
-- name: Install fd find utility from package
-  become: yes
-  package:
-    name: fd-find
-    state: present
-  tags:
-    - fd-find
-    - devel
