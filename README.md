@@ -73,9 +73,11 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **firefox-config** — *Arch only*: a system-wide managed Firefox config
   (support files in `install/firefox/`). A `policies.json` installs uBlock
   Origin, Bitwarden, Video Speed Controller, and Vimium, disables the built-in
-  password manager, and requests the Japanese (`ja`) UI locale (pulling in
-  `firefox-i18n-ja`); an AutoConfig (`firefox.cfg`) forces the browser chrome
-  into dark mode. Assumes the firefox package is already installed
+  password manager, turns off telemetry/studies, and requests the Japanese
+  (`ja`) UI locale (pulling in `firefox-i18n-ja`); an AutoConfig (`firefox.cfg`)
+  applies privacy prefs (no crash/sponsored content, HTTPS-Only). Dark UI
+  follows the desktop color-scheme (niri `appearance` module), not this config.
+  Assumes the firefox package is already installed
 - **firefox-all** — a *group* (not a package) that runs `firefox` then
   `firefox-config`. All three firefox modules are **off by default** in
   `setup.sh` (listed there commented out); run one explicitly, e.g.
@@ -87,7 +89,9 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   search suggestions + URL-keyed data collection + spellcheck service +
   background mode, keeps Safe Browsing at *standard* (not *enhanced*), and
   normal-installs Bitwarden, uBlock Origin Lite, Vimium, and Video Speed
-  Controller. Assumes the chromium package is already installed
+  Controller. (Dark UI isn't set here — Chromium follows the desktop
+  color-scheme set by the niri `appearance` module.) Assumes the chromium
+  package is already installed
 - **chromium-all** — a *group* that runs `chromium` then `chromium-config`. Like
   the firefox set, all three chromium modules are **off by default** in
   `setup.sh`; run one explicitly, e.g. `./setup.sh chromium-all`

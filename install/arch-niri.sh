@@ -28,6 +28,7 @@ NIRI_DIR="$HERE/gui/niri"
 MEMBERS=(
     niri-core
     portals
+    appearance  # dark color-scheme (portal preference all apps follow)
     bar
     launcher
     notifications

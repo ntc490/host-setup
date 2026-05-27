@@ -9,9 +9,10 @@
 #                     manager; turns off telemetry, Firefox studies, and Pocket;
 #                     enables tracking protection + DNS-over-HTTPS (Quad9, with
 #                     .lan/.local sent to system DNS); requests the ja UI locale
-#   * autoconfig    — firefox.cfg + defaults/pref/autoconfig.js: dark chrome,
-#                     no crash-report submission, no sponsored/suggested content,
-#                     HTTPS-Only mode (no per-profile prefs)
+#   * autoconfig    — firefox.cfg + defaults/pref/autoconfig.js: no crash-report
+#                     submission, no sponsored/suggested content, HTTPS-Only mode
+#                     (no per-profile prefs). Dark UI now follows the desktop
+#                     color-scheme (arch-niri appearance), not this config.
 #
 # The ja langpack package and the autoconfig paths are Arch-specific, so this
 # module is Arch-only and a no-op elsewhere.
@@ -38,7 +39,7 @@ install_system_file "$HERE/firefox/policies.json" /etc/firefox/policies/policies
 install_system_file "$HERE/firefox/autoconfig.js" /usr/lib/firefox/defaults/pref/autoconfig.js
 install_system_file "$HERE/firefox/firefox.cfg"   /usr/lib/firefox/firefox.cfg
 
-log "firefox configured: dark theme, ja UI, no built-in password manager,"
+log "firefox configured: ja UI, no built-in password manager,"
 log "  telemetry/studies/crash/Pocket off, tracking protection on,"
 log "  DoH via Quad9 (.lan/.local excluded), HTTPS-Only, no sponsored content,"
 log "  uBlock Origin + Bitwarden + Video Speed Controller + Vimium."
