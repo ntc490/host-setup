@@ -25,7 +25,7 @@ log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 # is in place for emacs's tree-sitter compile. (emacs also installs base-devel
 # itself, so a standalone `./setup.sh emacs` still builds.)
 ALL=(
-    git-settings
+    git-config
     locale
     zsh
     fastfetch

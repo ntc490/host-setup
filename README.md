@@ -43,7 +43,7 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 
 ## What gets installed
 
-- **git-settings** — global git config: user identity, `rerere.enabled`,
+- **git-config** — global git config: user identity, `rerere.enabled`,
   `pull.rebase`, `push.autoSetupRemote`, and the `br`/`st`/`ci`/`co` aliases
 - **locale** — generates `en_US.UTF-8` + `ja_JP.UTF-8` and sets `LANG` to
   `en_US.UTF-8` (otherwise you're left on systemd's `C.UTF-8` fallback)
