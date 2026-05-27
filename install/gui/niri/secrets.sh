@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
-# Secret storage + networking. Under a non-KDE niri session we still use KWallet
-# as the Secret Service so NetworkManager (wifi PSKs), SSH, etc. have somewhere
-# to store secrets; libsecret is the client lib apps talk to. The kwallet PAM
-# auto-unlock hook is set up by the greeter module (it belongs to the login PAM
-# stack, /etc/pam.d/sddm). Here we just install the pieces and enable NetworkManager.
+# Secret service + networking. KWallet provides the freedesktop Secret Service
+# (org.freedesktop.secrets) under this non-KDE niri session, for libsecret-based
+# apps that want somewhere to store their own secrets. NetworkManager does NOT
+# use it for wifi — NM keeps wifi PSKs in its own root-only profiles under
+# /etc/NetworkManager/system-connections (encrypted at rest by the LUKS root).
+# libsecret is the client lib apps talk to. The kwallet PAM auto-unlock hook is
+# set up by the greeter module (/etc/pam.d/sddm). Here we just install the pieces
+# and enable NetworkManager.
 source "$(dirname "$0")/../../../lib/common.sh"
 
 install_tool kwallet

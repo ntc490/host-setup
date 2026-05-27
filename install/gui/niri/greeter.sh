@@ -68,13 +68,13 @@ fi
 # kwallet auto-unlock at login. SDDM ships a default /etc/pam.d/sddm; append the
 # two kwallet hooks once (don't rewrite the file, so we keep the package's
 # version-specific stack intact). pam_kwallet_init (spawned from niri's
-# config.kdl) reads PAM_KWALLET5_LOGIN from this stack to unlock the wallet so
-# NetworkManager gets wifi PSKs without re-prompting.
+# config.kdl) reads PAM_KWALLET5_LOGIN from this stack to unlock the wallet at
+# login, so libsecret apps find an already-unlocked Secret Service.
 PAM_FILE=/etc/pam.d/sddm
 if [ -f "$PAM_FILE" ]; then
     if ! $SUDO grep -q 'pam_kwallet5.so' "$PAM_FILE"; then
         log "Adding kwallet PAM hooks to $PAM_FILE"
-        printf '\n# arch-niri: kwallet auto-unlock at login (NetworkManager wifi secrets).\nauth     optional   pam_kwallet5.so\nsession  optional   pam_kwallet5.so auto_start\n' \
+        printf '\n# arch-niri: kwallet auto-unlock at login (Secret Service for libsecret apps).\nauth     optional   pam_kwallet5.so\nsession  optional   pam_kwallet5.so auto_start\n' \
             | $SUDO tee -a "$PAM_FILE" >/dev/null
     else
         log "$PAM_FILE already has kwallet hooks; skipping"

@@ -280,12 +280,12 @@ spawn-at-startup "fcitx5" "-d"
 // Notification daemon.
 spawn-at-startup "mako"
 
-// Secret service (KWallet) for NetworkManager / SSH / etc. The PAM stack
-// in /etc/pam.d/greetd already passes the login password to a socket via
-// pam_kwallet5.so; pam_kwallet_init reads that socket and hands the
-// password to kwalletd6 over D-Bus, unlocking the wallet automatically.
-// kwalletd6 itself is D-Bus-activated on first secret request (e.g.
-// when NM asks for a wifi PSK), so we don't need to spawn it directly.
+// Auto-unlock KWallet, the Secret Service (org.freedesktop.secrets) for
+// libsecret-based apps. The PAM stack in /etc/pam.d/sddm passes the login
+// password to a socket via pam_kwallet5.so; pam_kwallet_init reads that socket
+// and hands the password to kwalletd6 over D-Bus, unlocking the wallet at login.
+// kwalletd6 is D-Bus-activated on first secret request, so we don't spawn it
+// directly. (NetworkManager does NOT use this — wifi PSKs live in NM's own files.)
 spawn-at-startup "/usr/lib/pam_kwallet_init"
 
 // Polkit authentication agent — shows the password prompt for polkit-governed
