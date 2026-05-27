@@ -7,8 +7,9 @@
 # guarded shell changes).
 #
 # Usage:
-#   ./setup.sh              # run everything
-#   ./setup.sh zsh emacs    # run only the named install scripts
+#   ./setup.sh                 # run everything
+#   ./setup.sh zsh emacs       # run only the named install scripts
+#   ./setup.sh -x less -x ag   # run everything EXCEPT the named modules
 #
 # Package installs need root, so you'll be prompted for sudo (unless already
 # root, e.g. in a container).
@@ -72,10 +73,55 @@ BASE_PKGS=(
 prepare_repos
 ensure_stow
 
-scripts=("$@")
+# Parse args. Positional names = run only those. -x/--exclude <name> (repeatable)
+# drops a module from the run. With no positional names, the base set is the full
+# ALL list (a "full run"); excludes are subtracted from whichever set applies.
+excludes=()
+scripts=()
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -x|--exclude)
+            shift; [[ $# -gt 0 ]] || { echo "setup.sh: --exclude needs a module name" >&2; exit 2; }
+            excludes+=("$1") ;;
+        -x*) excludes+=("${1#-x}") ;;        # also accept the glued form, -xless
+        --)  shift; scripts+=("$@"); break ;;
+        -*)  echo "setup.sh: unknown option '$1'" >&2; exit 2 ;;
+        *)   scripts+=("$1") ;;
+    esac
+    shift
+done
+
+# No positional names -> full run of the ALL list (+ base packages below).
+full_run=0
 if [[ ${#scripts[@]} -eq 0 ]]; then
+    full_run=1
     scripts=("${ALL[@]}")
-    # Full run: install the baseline packages that don't have their own module.
+fi
+
+# Typo guard: warn about excludes that don't match anything in the run set.
+for ex in "${excludes[@]}"; do
+    found=0
+    for name in "${scripts[@]}"; do [[ "$name" == "$ex" ]] && { found=1; break; }; done
+    [[ $found -eq 0 ]] && warn "exclude '$ex' isn't in the run set; ignoring (typo?)"
+done
+
+# Drop excluded modules from the run set.
+if [[ ${#excludes[@]} -gt 0 ]]; then
+    filtered=()
+    for name in "${scripts[@]}"; do
+        skip=0
+        for ex in "${excludes[@]}"; do [[ "$name" == "$ex" ]] && { skip=1; break; }; done
+        [[ $skip -eq 0 ]] && filtered+=("$name")
+    done
+    scripts=("${filtered[@]}")
+fi
+
+if [[ ${#scripts[@]} -eq 0 ]]; then
+    warn "nothing to run (everything excluded?)"
+fi
+
+# Full run also installs the baseline packages that don't have their own module.
+if [[ $full_run -eq 1 ]]; then
     log "===== base packages ====="
     for pkg in "${BASE_PKGS[@]}"; do install_tool "$pkg"; done
 fi
