@@ -60,6 +60,9 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **ssh-server** — OpenSSH server (`openssh` on Arch, `openssh-server`
   elsewhere); generates host keys and enables the daemon (`sshd`, or `ssh` on
   Debian)
+- **ssh-agent** — *Arch only* (no-op elsewhere): points `SSH_AUTH_SOCK` at the
+  socket-activated `ssh-agent.socket` user unit (via `environment.d`) and enables
+  it
 - **firefox** — web browser (`firefox-esr` on Debian)
 - **kitty** — terminal emulator (package, same name on all distros) + the
   `~/.config/kitty/kitty.conf` dotfile
