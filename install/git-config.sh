@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Global git configuration: identity, rerere, pull --rebase, and short aliases.
-# Writes to ~/.gitconfig via `git config --global` (idempotent; re-runnable).
+# Global git configuration: identity, rerere, pull --rebase, push auto-upstream,
+# init default branch, column UI, and short aliases. Writes to ~/.gitconfig via
+# `git config --global` (idempotent; re-runnable).
 source "$(dirname "$0")/../lib/common.sh"
 
 # git itself is a prerequisite for everything else in this repo, but make sure.
@@ -24,6 +25,13 @@ git config --global pull.rebase true
 # First `git push` of a new branch auto-creates the upstream (no
 # `--set-upstream` needed).
 git config --global push.autoSetupRemote true
+
+# Name the initial branch "master" on `git init` (pin it so git stops warning
+# about the unset default).
+git config --global init.defaultBranch master
+
+# Show branch/tag/remote listings in columns when writing to a terminal.
+git config --global column.ui auto
 
 # Short aliases
 git config --global alias.br branch
