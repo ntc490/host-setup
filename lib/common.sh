@@ -129,6 +129,8 @@ distro_pkg() {
             [ "$DISTRO_FAMILY" = debian ] && echo "firefox-esr" || echo "firefox" ;;
         p7zip)
             [ "$DISTRO_FAMILY" = debian ] && echo "p7zip-full" || echo "p7zip" ;;
+        openssh)
+            [ "$DISTRO_FAMILY" = arch ] && echo "openssh" || echo "openssh-server" ;;
         base-devel)
             case "$DISTRO_FAMILY" in
                 arch)   echo "base-devel" ;;

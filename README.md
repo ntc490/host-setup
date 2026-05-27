@@ -57,6 +57,9 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **screen / tmux / tig** — package + dotfile
 - **eza / bat / fzf / htop / btop** — everyday shell tools (package only)
 - **less / rsync** — pager, file sync (package only)
+- **ssh-server** — OpenSSH server (`openssh` on Arch, `openssh-server`
+  elsewhere); generates host keys and enables the daemon (`sshd`, or `ssh` on
+  Debian)
 - **firefox** — web browser (`firefox-esr` on Debian)
 - **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
 - **base-devel / net-tools / doxygen / graphviz / cmake** — development packages
