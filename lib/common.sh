@@ -125,6 +125,10 @@ distro_pkg() {
             [ "$DISTRO_FAMILY" = debian ] && echo "silversearcher-ag" || echo "the_silver_searcher" ;;
         fd)
             [ "$DISTRO_FAMILY" = arch ] && echo "fd" || echo "fd-find" ;;
+        firefox)
+            [ "$DISTRO_FAMILY" = debian ] && echo "firefox-esr" || echo "firefox" ;;
+        p7zip)
+            [ "$DISTRO_FAMILY" = debian ] && echo "p7zip-full" || echo "p7zip" ;;
         base-devel)
             case "$DISTRO_FAMILY" in
                 arch)   echo "base-devel" ;;

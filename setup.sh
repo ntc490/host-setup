@@ -30,6 +30,7 @@ ALL=(
     fastfetch
     dev-tools
     emacs
+    firefox
     ag
     fd
     screen
@@ -40,9 +41,20 @@ ALL=(
     fzf
     htop
     btop
+    less
+    rsync
     # wezterm   # not currently using it
     tldr
     carbon-x1   # gated: only does anything on an Arch ThinkPad X1 Carbon
+)
+
+# Baseline packages that don't (yet) warrant their own module. Installed
+# directly on a full run; cross-distro names go through install_tool. Promote
+# any of these to a real module later if it needs config/service handling.
+BASE_PKGS=(
+    tar
+    gzip
+    p7zip
 )
 
 # Enable extra repos (EPEL/CRB on rhel) + refresh apt lists up front, then
@@ -51,7 +63,12 @@ prepare_repos
 ensure_stow
 
 scripts=("$@")
-[[ ${#scripts[@]} -eq 0 ]] && scripts=("${ALL[@]}")
+if [[ ${#scripts[@]} -eq 0 ]]; then
+    scripts=("${ALL[@]}")
+    # Full run: install the baseline packages that don't have their own module.
+    log "===== base packages ====="
+    for pkg in "${BASE_PKGS[@]}"; do install_tool "$pkg"; done
+fi
 
 for name in "${scripts[@]}"; do
     script="$HERE/install/${name}.sh"
