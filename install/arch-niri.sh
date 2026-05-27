@@ -2,7 +2,10 @@
 # arch-niri: the niri Wayland desktop, as an Arch-only GROUP (like carbon-x1 and
 # dev-tools). Gates on Arch, then runs each member in install/gui/niri/ in a
 # deliberate order: the compositor core first, then the session pieces, with
-# power and the greeter (which changes the login path) last.
+# the greeter (which changes the login path) last.
+#
+# Note: ThinkPad power management (tlp) is NOT here — it lives in the carbon-x1
+# group, since it's hardware-specific.
 #
 # This group does NOT install emacs, kitty, or the ja_JP.UTF-8 locale — those
 # are their own host-setup modules and the niri configs assume they're present.
@@ -36,7 +39,6 @@ MEMBERS=(
     input-method
     fonts
     secrets
-    power
     greeter     # LAST: switches the display manager to greetd
 )
 
