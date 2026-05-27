@@ -208,18 +208,21 @@ aur_install() {
 # First run clones; later runs pull --rebase (and refresh submodules if recursive).
 clone_or_update() {
     local repo=$1 dest=$2 recursive=${3:-}
+    # Each git step propagates failure via `|| return 1` — otherwise the
+    # trailing `if [[ $recursive ]]` test would be the function's last command
+    # and mask a failed pull/clone (returning 0 on a non-recursive call).
     if [[ -d "$dest/.git" ]]; then
         log "Updating $dest (git pull --rebase)"
-        git -C "$dest" pull --rebase
+        git -C "$dest" pull --rebase || return 1
         if [[ "$recursive" == "--recursive" ]]; then
-            git -C "$dest" submodule update --init --recursive
+            git -C "$dest" submodule update --init --recursive || return 1
         fi
     else
         log "Cloning $repo -> $dest"
         if [[ "$recursive" == "--recursive" ]]; then
-            git clone --recursive "$repo" "$dest"
+            git clone --recursive "$repo" "$dest" || return 1
         else
-            git clone "$repo" "$dest"
+            git clone "$repo" "$dest" || return 1
         fi
     fi
 }
