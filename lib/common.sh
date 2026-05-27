@@ -235,17 +235,50 @@ ensure_stow() {
 # Symlinks dotfiles/<package>/* into $HOME. Any pre-existing *real* file (not a
 # symlink) that would conflict is backed up first, so this is safe to re-run on
 # a machine that already has hand-placed configs.
+#
+# Guarded: before touching a target, every path component under $HOME is
+# checked. If one is a symlink managed by *another* repo (i.e. it doesn't
+# resolve back into our own dotfiles), we refuse rather than write through it —
+# following a foreign dir-symlink once clobbered a sibling repo's config. When a
+# component is our *own* stow symlink, the file is already managed, so we skip
+# the backup mv (which would otherwise rename our repo file through the link).
 stow_pkg() {
     local pkg=$1 f rel target
     ensure_stow
+    local pkgdir="$DOTFILES_DIR/$pkg" own
+    own="$(readlink -f "$DOTFILES_DIR")"
+
     while IFS= read -r -d '' f; do
-        rel=${f#"$DOTFILES_DIR/$pkg/"}
+        rel=${f#"$pkgdir/"}
         target="$HOME/$rel"
-        if [[ -e "$target" && ! -L "$target" ]]; then
+
+        # Walk each path component of the target, looking for symlinks.
+        local probe="$HOME" comp dest had_symlink=0
+        while IFS= read -r comp; do
+            [ -n "$comp" ] || continue
+            probe="$probe/$comp"
+            if [ -L "$probe" ]; then
+                had_symlink=1
+                dest="$(readlink -f "$probe" 2>/dev/null || true)"
+                case "${dest}/" in
+                    "$own/"*) : ;;   # our own stow symlink — fine, leave it
+                    *)
+                        warn "stow $pkg: '$probe' is a symlink not managed by this repo (-> ${dest:-unresolved})."
+                        warn "Refusing to stow '$pkg' so we don't write through it; remove/relocate that link, then re-run."
+                        return 1 ;;
+                esac
+            fi
+        done < <(printf '%s\n' "$rel" | tr '/' '\n')
+
+        # Only back up a real conflicting file that sits in real directories. If
+        # a symlink is in the path it's ours (foreign ones returned above), so
+        # the file is already managed and must not be mv'd through the link.
+        if [ "$had_symlink" -eq 0 ] && [ -e "$target" ] && [ ! -L "$target" ]; then
             log "Backing up existing $target -> ${target}.bak.$(date +%s)"
             mv "$target" "${target}.bak.$(date +%s)"
         fi
-    done < <(find "$DOTFILES_DIR/$pkg" -type f -print0)
+    done < <(find "$pkgdir" -type f -print0)
+
     log "stow $pkg"
     stow -d "$DOTFILES_DIR" -t "$HOME" -v --restow "$pkg"
 }
