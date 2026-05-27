@@ -127,6 +127,8 @@ distro_pkg() {
             [ "$DISTRO_FAMILY" = arch ] && echo "fd" || echo "fd-find" ;;
         firefox)
             [ "$DISTRO_FAMILY" = debian ] && echo "firefox-esr" || echo "firefox" ;;
+        imagemagick)
+            [ "$DISTRO_FAMILY" = rhel ] && echo "ImageMagick" || echo "imagemagick" ;;
         p7zip)
             [ "$DISTRO_FAMILY" = debian ] && echo "p7zip-full" || echo "p7zip" ;;
         openssh)

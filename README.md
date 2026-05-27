@@ -54,6 +54,8 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **emacs** — graphical Emacs (`emacs-wayland` pgtk build on Arch, `emacs`
   elsewhere) + my [emacs.d](https://github.com/ntc490/emacs.d) config, with its
   tree-sitter grammars compiled into `~/.emacs.d/tree-sitter`
+- **imagemagick** — image rendering used by Emacs (`imagemagick` on Arch/Debian,
+  `ImageMagick` on Fedora/RHEL)
 - **ag** — the_silver_searcher
 - **fd** — fd
 - **screen / tmux / tig** — package + dotfile

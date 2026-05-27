@@ -31,6 +31,7 @@ ALL=(
     fastfetch
     dev-tools
     emacs
+    imagemagick   # image rendering for emacs (image-dired, inline images)
     #   firefox-all       package + managed config (the usual choice)
     #   firefox           package only
     #   firefox-config    managed config only (dark theme, ja UI, extensions, no pw manager)
