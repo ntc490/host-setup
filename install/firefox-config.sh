@@ -5,8 +5,8 @@
 # machine before any profile exists, using two of Firefox's system-level
 # mechanisms:
 #   * policies.json — normal-installs uBlock Origin / Bitwarden / Video Speed
-#                     Controller, disables the built-in password manager
-#                     entirely, and requests the Japanese (ja) UI locale
+#                     Controller / Vimium, disables the built-in password
+#                     manager entirely, and requests the Japanese (ja) UI locale
 #   * autoconfig    — firefox.cfg + defaults/pref/autoconfig.js, flipping the
 #                     browser chrome into dark mode (no per-profile prefs)
 #
@@ -36,5 +36,5 @@ install_system_file "$HERE/firefox/autoconfig.js" /usr/lib/firefox/defaults/pref
 install_system_file "$HERE/firefox/firefox.cfg"   /usr/lib/firefox/firefox.cfg
 
 log "firefox configured: dark theme, ja UI, no built-in password manager,"
-log "  uBlock Origin + Bitwarden + Video Speed Controller."
+log "  uBlock Origin + Bitwarden + Video Speed Controller + Vimium."
 log "  Extensions download on first launch; restart firefox if it's running."
