@@ -85,7 +85,9 @@ install_pkgs() {
         debian)
             _apt_update
             log "apt-get install $*"
-            $SUDO DEBIAN_FRONTEND=noninteractive apt-get install -y "$@" ;;
+            # Use `env` to set DEBIAN_FRONTEND: a bare VAR=val prefix breaks when
+            # $SUDO is empty (bash then treats the assignment as the command).
+            $SUDO env DEBIAN_FRONTEND=noninteractive apt-get install -y "$@" ;;
         rhel)
             log "dnf install $*"
             $SUDO dnf install -y "$@" ;;

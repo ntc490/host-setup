@@ -23,7 +23,9 @@ if [[ -z "$zsh_path" ]]; then
     warn "zsh not found on PATH; skipping login-shell change"
 elif [[ "${SHELL:-}" == *"/zsh" ]]; then
     log "Login shell already zsh"
+elif ! command -v chsh >/dev/null 2>&1; then
+    warn "chsh not available; skipping login-shell change (set it manually)"
 else
     log "Changing login shell to $zsh_path"
-    $SUDO chsh -s "$zsh_path" "$USER"
+    $SUDO chsh -s "$zsh_path" "$(id -un)"
 fi
