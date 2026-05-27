@@ -43,6 +43,8 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 
 ## What gets installed
 
+- **git-settings** — global git config: user identity, `rerere.enabled`,
+  `pull.rebase`, and the `br`/`st`/`ci`/`co` aliases
 - **zsh** — zsh, oh-my-zsh + autosuggestions/syntax-highlighting,
   `.zshrc`, and sets zsh as the login shell
 - **fastfetch** — system-info banner; `.zshrc` runs it at startup if present,

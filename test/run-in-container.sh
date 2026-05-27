@@ -32,7 +32,7 @@ image_for() {
 
 # CLI-safe default subset: exercises package install, name mapping, stow, the
 # dev-tools group, and skip+warn — without the heavy emacs `make` or GUI wezterm.
-DEFAULT_SCRIPTS="zsh fastfetch ag fd screen tmux tig eza bat fzf htop btop dev-tools tldr"
+DEFAULT_SCRIPTS="zsh fastfetch ag fd screen tmux tig eza bat fzf htop btop dev-tools tldr git-settings"
 
 usage() { echo "Usage: $0 <arch|debian|rocky|all> [script ...|full]" >&2; exit 1; }
 [ $# -ge 1 ] || usage

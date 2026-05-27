@@ -23,6 +23,7 @@ log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 # Order matters a little: zsh first (sets up the shell + oh-my-zsh that the
 # z plugin and prompt expect), then the rest.
 ALL=(
+    git-settings
     zsh
     fastfetch
     emacs
