@@ -1,0 +1,12 @@
+# greetd config for the niri setup. Managed by host-setup
+# (install/gui/niri/greeter.sh); edit there and re-run, not in place.
+[terminal]
+vt = 1
+
+[default_session]
+# gtkgreet (a GTK greeter) runs inside cage, a minimal kiosk Wayland compositor.
+#   -s  let cage handle VT switching
+#   -l  make gtkgreet list the sessions in /usr/share/wayland-sessions
+#       (the niri package ships niri.desktop there)
+command = "cage -s -- gtkgreet -l"
+user = "greeter"

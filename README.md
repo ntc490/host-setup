@@ -94,6 +94,23 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   alsa-utils/sof-firmware + the PipeWire stack; `kanata`: AUR kanata + the
   `kanata.kbd` config in `/etc` + a systemd unit, for home-row mods). Add more
   by dropping a `*.sh` in that directory.
+- **arch-niri** — an *Arch-only desktop group* for the niri (scrollable-tiling
+  Wayland) setup. Gated on Arch (no-op elsewhere) and **off by default**: it's
+  listed commented-out in `setup.sh`, so a full run never touches the desktop or
+  the login path. Run it explicitly with `./setup.sh arch-niri`. Members live in
+  `install/gui/niri/` and cover: niri compositor, waybar, fuzzel, mako,
+  hypridle/hyprlock (idle+lock), awww wallpaper, wl-clipboard/cliphist,
+  grim/slurp, brightnessctl/pavucontrol/playerctl, xdg-desktop-portal-gtk/-gnome,
+  fcitx5 + Mozc Japanese input (+ Noto/JetBrains fonts), kwallet/NetworkManager
+  secrets, tlp power, and a **greetd + gtkgreet** greeter (run under `cage`).
+  Notes: it **assumes `emacs`, `kitty`, and `locale` (ja_JP.UTF-8) come from
+  their own modules** and does not duplicate them; the greeter module enables
+  greetd as the display manager (effective on the next reboot — roll back from a
+  TTY with `sudo systemctl disable greetd`); the `tlp` charge thresholds + rfkill
+  mask are `host_is "ThinkPad"`-gated (overlaps `carbon-x1`); `config.kdl` assumes
+  `$HOME=/home/ncrapo`. swaylock and the niri repo's emacs config were
+  intentionally not migrated. GUI/login can't be exercised by the container
+  harness — only the Arch gate and syntax are CI-checkable.
 
 ## Testing
 
