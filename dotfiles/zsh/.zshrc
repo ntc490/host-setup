@@ -22,7 +22,16 @@ plugins=(git git-extras zsh-autosuggestions zsh-syntax-highlighting tmux history
 source $ZSH/oh-my-zsh.sh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# Predictable SSH authentication socket location.
+# Fall back to systemd's ssh-agent.socket if the session didn't export
+# SSH_AUTH_SOCK. environment.d sets this at login, but only when the systemd
+# --user manager actually (re)starts — a stale manager (sessions kept alive
+# across a re-login) leaves it unset. Only acts when unset, so a forwarded
+# agent (ForwardAgent) is never clobbered.
+if [ -z "$SSH_AUTH_SOCK" ] && [ -S "${XDG_RUNTIME_DIR}/ssh-agent.socket" ]; then
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+fi
+
+# Predictable SSH authentication socket location (stable path for tmux reattach).
 SOCK="${HOME}/.ssh-agent-tmux"
 if test $SSH_AUTH_SOCK && [ $SSH_AUTH_SOCK != $SOCK ]
 then
