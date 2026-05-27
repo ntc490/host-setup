@@ -80,6 +80,17 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   `firefox-config`. All three firefox modules are **off by default** in
   `setup.sh` (listed there commented out); run one explicitly, e.g.
   `./setup.sh firefox-all`
+- **chromium** — web browser, package only
+- **chromium-config** — a system-wide managed Chromium policy (support file in
+  `install/chromium/`). A `policies.json` in `/etc/chromium/policies/managed/`
+  disables the built-in password manager, turns off metrics/crash reporting +
+  search suggestions + URL-keyed data collection + spellcheck service +
+  background mode, keeps Safe Browsing at *standard* (not *enhanced*), and
+  normal-installs Bitwarden, uBlock Origin Lite, Vimium, and Video Speed
+  Controller. Assumes the chromium package is already installed
+- **chromium-all** — a *group* that runs `chromium` then `chromium-config`. Like
+  the firefox set, all three chromium modules are **off by default** in
+  `setup.sh`; run one explicitly, e.g. `./setup.sh chromium-all`
 - **kitty** — terminal emulator (package, same name on all distros) + the
   `~/.config/kitty/kitty.conf` dotfile
 - **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper

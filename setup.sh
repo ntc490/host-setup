@@ -36,6 +36,9 @@ ALL=(
     #   firefox-all       package + managed config (the usual choice)
     #   firefox           package only
     #   firefox-config    managed config only (dark theme, ja UI, extensions, no pw manager)
+    #   chromium-all      package + managed policy (the usual choice)
+    #   chromium          package only
+    #   chromium-config   managed policy only (privacy, extensions, no pw manager)
     ag
     fd
     screen
