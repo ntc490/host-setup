@@ -21,11 +21,14 @@ require_supported
 log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 
 # Order matters a little: zsh first (sets up the shell + oh-my-zsh that the
-# z plugin and prompt expect), then the rest.
+# z plugin and prompt expect), and dev-tools before emacs so the build toolchain
+# is in place for emacs's tree-sitter compile. (emacs also installs base-devel
+# itself, so a standalone `./setup.sh emacs` still builds.)
 ALL=(
     git-settings
     zsh
     fastfetch
+    dev-tools
     emacs
     ag
     fd
@@ -38,7 +41,6 @@ ALL=(
     htop
     btop
     # wezterm   # not currently using it
-    dev-tools
     tldr
 )
 
