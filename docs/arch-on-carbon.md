@@ -1,11 +1,6 @@
 * TODO
-  - syncthing
   - Google Drive
   - Word Processor
-  - fingerprint reader
-  - Import Niri
-  - Wallpaper?
-  - greeter
  - fonts for exa icons and stuff
      sudo pacman -S ttf-jetbrains-mono-nerd
 * Misc
@@ -25,8 +20,6 @@
  - microcode updates
      sudo pacman -S intel-ucode
 	 sudo grub-mkconfig -o /boot/grub/grub.cfg
- - LTS kernel as a backup
-     sudo pacman -S lts-kernel lts-kernel-headers
  - firewall?
      sudo pacman -S ufw
  - preload for faster app startups
@@ -37,16 +30,6 @@
      git clone 
  - Install fonts
      sudo pacman -S noto-fonts-cjk
-* Wallpaper
- - clone personal Wallpaper from github repo
-     github clone git@github.com:ntc490/wallpaper ~/Wallpaper
-* Google-Chrome
- - installed via manual git clone and `makepkg -is`
- - fonts suck (when hyprland config isn't right)
-* Dark Theme Support for Chrome
- - Go into browser settings and choose dark theme
- - Youtube will follow suit with the "device theme" from the Browser setting
- - Works for Firefox and Chrome
 * Japanese setup
  - Could change /etc/locale.conf
  - `LANG=ja_JP.utf8 date` will show in Japanese, for example
