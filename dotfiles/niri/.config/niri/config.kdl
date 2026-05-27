@@ -508,8 +508,11 @@ binds {
 
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
-    Mod+U              { focus-workspace-down; }
-    Mod+I              { focus-workspace-up; }
+    // Moved off Mod+U/Mod+I (and the Mod+Shift+U/I move variants below) so that
+    // SUPER+U and SUPER+Shift+U reach kitty for its transparency toggle. The
+    // Mod+Page_Down/Up binds above still do the same workspace switching.
+    Mod+Alt+Ctrl+U     { focus-workspace-down; }
+    Mod+Alt+Ctrl+I     { focus-workspace-up; }
     Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
     Mod+Ctrl+U         { move-column-to-workspace-down; }
@@ -521,8 +524,8 @@ binds {
 
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up   { move-workspace-up; }
-    Mod+Shift+U         { move-workspace-down; }
-    Mod+Shift+I         { move-workspace-up; }
+    Mod+Alt+Ctrl+Shift+U { move-workspace-down; }
+    Mod+Alt+Ctrl+Shift+I { move-workspace-up; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
