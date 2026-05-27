@@ -32,7 +32,8 @@ MEMBERS=(
     launcher
     notifications
     idle-lock
-    wallpaper
+    wallpaper   # clones the wallpaper image collection into ~/Wallpaper
+    awww        # wallpaper daemon; displays/rotates the images cloned above
     clipboard
     screenshot
     hardware-controls
