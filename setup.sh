@@ -24,6 +24,7 @@ log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 # z plugin and prompt expect), then the rest.
 ALL=(
     zsh
+    fastfetch
     emacs
     ag
     fd

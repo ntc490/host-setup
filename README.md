@@ -43,8 +43,10 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 
 ## What gets installed
 
-- **zsh** — zsh, fastfetch, oh-my-zsh + autosuggestions/syntax-highlighting,
+- **zsh** — zsh, oh-my-zsh + autosuggestions/syntax-highlighting,
   `.zshrc`, and sets zsh as the login shell
+- **fastfetch** — system-info banner; `.zshrc` runs it at startup if present,
+  so it's optional and safe to skip
 - **emacs** — graphical Emacs (`emacs-wayland` pgtk build on Arch, `emacs`
   elsewhere) + my [emacs.d](https://github.com/ntc490/emacs.d) config, with its
   tree-sitter grammars compiled into `~/.emacs.d/tree-sitter`

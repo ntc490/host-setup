@@ -12,9 +12,9 @@ if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
     source /usr/share/zsh/manjaro-zsh-prompt
 fi
 
-FASTFETCH=`which fastfetch 2> /dev/null`
-if [ $? -eq 0 ]; then
-    ${FASTFETCH}
+# Greeting banner, only if fastfetch is installed (it's an optional component).
+if command -v fastfetch > /dev/null 2>&1; then
+    fastfetch
 fi
 
 plugins=(git git-extras zsh-autosuggestions zsh-syntax-highlighting tmux history extract colorize docker z)

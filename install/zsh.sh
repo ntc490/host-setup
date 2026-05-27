@@ -4,7 +4,6 @@ source "$(dirname "$0")/../lib/common.sh"
 require_supported
 
 install_tool zsh
-install_tool fastfetch   # not in every distro's repos; skipped with a warning if absent
 
 ZSH_DIR="$HOME/.oh-my-zsh"
 clone_or_update https://github.com/robbyrussell/oh-my-zsh.git "$ZSH_DIR"
