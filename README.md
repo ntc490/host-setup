@@ -62,6 +62,10 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **dev-tools** — a *group* (not a package) that runs base-devel, net-tools,
   doxygen, graphviz, cmake, and clang-tools. Call it with `./setup.sh dev-tools`.
 - **tldr** — simplified community man pages
+- **carbon-x1** — a *machine-specific group* for the Lenovo ThinkPad X1 Carbon
+  (Arch only). Gated on DMI + distro, so it's a no-op everywhere else. Runs the
+  members in `install/carbon-x1/` (`bt`: bluez + blueman + service; `sound`:
+  alsa-utils + sof-firmware). Add more by dropping a `*.sh` in that directory.
 
 ## Testing
 

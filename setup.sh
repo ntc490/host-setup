@@ -42,6 +42,7 @@ ALL=(
     btop
     # wezterm   # not currently using it
     tldr
+    carbon-x1   # gated: only does anything on an Arch ThinkPad X1 Carbon
 )
 
 # Enable extra repos (EPEL/CRB on rhel) + refresh apt lists up front, then
