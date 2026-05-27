@@ -10,10 +10,14 @@ install_tool emacs
 EMACS_D="$HOME/.emacs.d"
 clone_or_update https://github.com/ntc490/emacs.d "$EMACS_D" --recursive
 
-# The config ships submodules with C/elisp helpers built via a top-level make.
-if [[ -f "$EMACS_D/Makefile" ]]; then
-    log "Building Emacs config helpers (make in $EMACS_D)"
-    make -C "$EMACS_D"
+# The tree-sitter-sources submodule compiles the grammar shared libraries and
+# `make install` drops them in ~/.emacs.d/tree-sitter. Building them needs a
+# C/C++ toolchain.
+TS_DIR="$EMACS_D/tree-sitter-sources"
+if [[ -f "$TS_DIR/Makefile" ]]; then
+    install_tool base-devel   # gcc/g++/make; idempotent if already present
+    log "Building tree-sitter grammars (make install in $TS_DIR)"
+    make -C "$TS_DIR" install
 else
-    warn "No Makefile in $EMACS_D; skipping make step"
+    warn "No $TS_DIR/Makefile; skipping tree-sitter build"
 fi
