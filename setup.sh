@@ -26,6 +26,7 @@ log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 # itself, so a standalone `./setup.sh emacs` still builds.)
 ALL=(
     git-settings
+    locale
     zsh
     fastfetch
     dev-tools

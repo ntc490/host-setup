@@ -45,6 +45,8 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 
 - **git-settings** — global git config: user identity, `rerere.enabled`,
   `pull.rebase`, and the `br`/`st`/`ci`/`co` aliases
+- **locale** — generates `en_US.UTF-8` + `ja_JP.UTF-8` and sets `LANG` to
+  `en_US.UTF-8` (otherwise you're left on systemd's `C.UTF-8` fallback)
 - **zsh** — zsh, oh-my-zsh + autosuggestions/syntax-highlighting,
   `.zshrc`, and sets zsh as the login shell
 - **fastfetch** — system-info banner; `.zshrc` runs it at startup if present,
