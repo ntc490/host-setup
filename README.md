@@ -61,6 +61,8 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   elsewhere); generates host keys and enables the daemon (`sshd`, or `ssh` on
   Debian)
 - **firefox** — web browser (`firefox-esr` on Debian)
+- **kitty** — terminal emulator (package, same name on all distros) + the
+  `~/.config/kitty/kitty.conf` dotfile
 - **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
 - **base-devel / net-tools / doxygen / graphviz / cmake** — development packages
 - **clang-tools** — clang (clang-format, clang-tidy)

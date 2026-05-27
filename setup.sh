@@ -41,6 +41,7 @@ ALL=(
     fzf
     htop
     btop
+    kitty
     less
     rsync
     ssh-server
