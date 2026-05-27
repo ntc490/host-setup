@@ -65,7 +65,17 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **ssh-agent** — *Arch only* (no-op elsewhere): points `SSH_AUTH_SOCK` at the
   socket-activated `ssh-agent.socket` user unit (via `environment.d`) and enables
   it
-- **firefox** — web browser (`firefox-esr` on Debian)
+- **firefox** — web browser, package only (`firefox-esr` on Debian)
+- **firefox-config** — *Arch only*: a system-wide managed Firefox config
+  (support files in `install/firefox/`). A `policies.json` installs uBlock
+  Origin, Bitwarden, and Video Speed Controller, disables the built-in password
+  manager, and requests the Japanese (`ja`) UI locale (pulling in
+  `firefox-i18n-ja`); an AutoConfig (`firefox.cfg`) forces the browser chrome
+  into dark mode. Assumes the firefox package is already installed
+- **firefox-all** — a *group* (not a package) that runs `firefox` then
+  `firefox-config`. All three firefox modules are **off by default** in
+  `setup.sh` (listed there commented out); run one explicitly, e.g.
+  `./setup.sh firefox-all`
 - **kitty** — terminal emulator (package, same name on all distros) + the
   `~/.config/kitty/kitty.conf` dotfile
 - **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
