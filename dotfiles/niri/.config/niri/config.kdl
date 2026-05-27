@@ -288,6 +288,12 @@ spawn-at-startup "mako"
 // when NM asks for a wifi PSK), so we don't need to spawn it directly.
 spawn-at-startup "/usr/lib/pam_kwallet_init"
 
+// Polkit authentication agent — shows the password prompt for polkit-governed
+// actions (disk mounts, NetworkManager system edits, fprintd enrollment).
+// Without it those actions are silently denied. Installed by the niri group's
+// polkit member (polkit-kde-agent).
+spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
+
 // Clipboard history watchers — record text and images into cliphist's store.
 spawn-sh-at-startup "wl-paste --type text  --watch cliphist store"
 spawn-sh-at-startup "wl-paste --type image --watch cliphist store"

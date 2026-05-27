@@ -39,6 +39,7 @@ MEMBERS=(
     input-method
     fonts
     secrets
+    polkit      # polkit auth agent (needed for GUI privilege prompts + fprintd enroll)
     greeter     # LAST: switches the display manager to sddm
 )
 
