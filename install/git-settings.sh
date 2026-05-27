@@ -21,6 +21,10 @@ git config --global rerere.enabled true
 # `git pull` rebases instead of creating merge commits.
 git config --global pull.rebase true
 
+# First `git push` of a new branch auto-creates the upstream (no
+# `--set-upstream` needed).
+git config --global push.autoSetupRemote true
+
 # Short aliases
 git config --global alias.br branch
 git config --global alias.st status
