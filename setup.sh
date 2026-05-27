@@ -37,7 +37,7 @@ ALL=(
     fzf
     htop
     btop
-    wezterm
+    # wezterm   # not currently using it
     dev-tools
     tldr
 )
