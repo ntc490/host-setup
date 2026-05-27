@@ -1,13 +1,11 @@
 * TODO
+  - syncthing
   - Google Drive
-  - Teams?
   - Word Processor
   - Japanese entry
   - Emacs keys in chromium? patch?
-* grub install in chroot env
- - Install os-prober, then run grub configuration again
 * Extra Packages
-     sudo pacman -S wezterm ansible exa fd-find ag firefox p7zip rsync tar gzip emacs-nox htop less bat git alsa-utils
+     sudo pacman -S firefox p7zip rsync tar gzip htop less bat git alsa-utils
  - fonts for exa icons and stuff
      sudo pacman -S ttf-jetbrains-mono-nerd
  - Bluetooth - was able to pair ear buds in KDE Desktop
@@ -47,9 +45,6 @@
 	 sudo systemctl start preload
  - auto-cpufreq
      git clone 
- - Japanese sddm config. Add /etc/default/locale with the following lines:
-     LANG="ja_JP.UTF-8"
-     LC_ALL="ja_JP.UTF-8"
  - Japanese shell setup fonts
    - Uncomment ja_JP.utf8 from /etc/locale.gen and run locale-gen
    - Install fonts
@@ -67,8 +62,6 @@
 * Google-Chrome
  - installed via manual git clone and `makepkg -is`
  - fonts suck (when hyprland config isn't right)
-* Installed ansible and ran host-setup main.yml
- - ensured I have latest/greatest emacs setup
 * Dark Theme Support for Chrome
  - Go into browser settings and choose dark theme
  - Youtube will follow suit with the "device theme" from the Browser setting
@@ -78,10 +71,6 @@
  - [X] Ad-blocker
  - [ ] vim keys
  - [ ] emacs keybindings? Firemacs? Dead?
-* Terminal
- - Wezterm doesn't seem to be well supported in hyprland? Need to set
-   'config.wayland_enable = false'
- - Needed to install nerd font
 * Japanese setup
  - Could change /etc/locale.conf
  - `LANG=ja_JP.utf8 date` will show in Japanese, for example

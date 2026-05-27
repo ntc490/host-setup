@@ -166,6 +166,33 @@ install_tool() {
     fi
 }
 
+# aur_install <pkg> — build and install an AUR package via makepkg. Arch only,
+# and idempotent (skips if already installed). makepkg refuses to run as root,
+# so when we're root (e.g. in a container) this warns and skips rather than
+# failing. The makepkg -si step will itself sudo for the final pacman -U.
+aur_install() {
+    local pkg=$1 build
+    if [ "$DISTRO_FAMILY" != arch ]; then
+        warn "$pkg: AUR install is Arch-only; skipping on $DISTRO_ID"
+        return 0
+    fi
+    if pacman -Q "$pkg" >/dev/null 2>&1; then
+        log "$pkg already installed"
+        return 0
+    fi
+    if [ "$(id -u)" -eq 0 ]; then
+        warn "$pkg: makepkg can't run as root; install it from the AUR as a normal user, then re-run"
+        return 0
+    fi
+    install_pkgs git        # needed to clone the AUR repo
+    install_tool base-devel # makepkg needs the toolchain
+    build="$(mktemp -d)"
+    log "Building $pkg from the AUR in $build"
+    git clone "https://aur.archlinux.org/${pkg}.git" "$build/$pkg"
+    ( cd "$build/$pkg" && makepkg -si --noconfirm )
+    rm -rf "$build"
+}
+
 # ---------------------------------------------------------------------------
 # git clone / update
 # ---------------------------------------------------------------------------
@@ -226,4 +253,17 @@ install_bin() {
         log "Installing $dest"
         install -m 0755 "$src" "$dest"
     fi
+}
+
+# install_system_file <src> <dest> [mode] — copy a file into a root-owned system
+# path (e.g. under /etc), via sudo, only if it changed. Creates parent dirs.
+# Default mode 0644. Use this for system config/units, not $HOME dotfiles.
+install_system_file() {
+    local src=$1 dest=$2 mode=${3:-0644}
+    if [[ -e "$dest" ]] && cmp -s "$src" "$dest"; then
+        log "$dest already up to date"
+        return 0
+    fi
+    log "Installing $dest"
+    $SUDO install -D -m "$mode" -o root -g root "$src" "$dest"
 }

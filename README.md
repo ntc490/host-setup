@@ -65,7 +65,9 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **carbon-x1** — a *machine-specific group* for the Lenovo ThinkPad X1 Carbon
   (Arch only). Gated on DMI + distro, so it's a no-op everywhere else. Runs the
   members in `install/carbon-x1/` (`bt`: bluez + blueman + service; `sound`:
-  alsa-utils + sof-firmware). Add more by dropping a `*.sh` in that directory.
+  alsa-utils/sof-firmware + the PipeWire stack; `kanata`: AUR kanata + the
+  `kanata.kbd` config in `/etc` + a systemd unit, for home-row mods). Add more
+  by dropping a `*.sh` in that directory.
 
 ## Testing
 

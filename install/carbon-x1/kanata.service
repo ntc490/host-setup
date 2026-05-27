@@ -1,0 +1,15 @@
+[Unit]
+Description=Kanata keyboard remapper
+Documentation=https://github.com/jtroo/kanata
+After=multi-user.target
+
+[Service]
+Type=simple
+# kanata needs uinput to emit the remapped events.
+ExecStartPre=/usr/bin/modprobe uinput
+ExecStart=/usr/bin/kanata --cfg /etc/kanata.kbd
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
