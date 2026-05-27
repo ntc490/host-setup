@@ -39,7 +39,7 @@ MEMBERS=(
     input-method
     fonts
     secrets
-    greeter     # LAST: switches the display manager to greetd
+    greeter     # LAST: switches the display manager to sddm
 )
 
 for m in "${MEMBERS[@]}"; do
@@ -52,5 +52,5 @@ for m in "${MEMBERS[@]}"; do
     "$member"
 done
 
-log "arch-niri complete. The niri session is selectable at the greetd login"
+log "arch-niri complete. The niri session is selectable at the sddm login"
 log "after the next reboot."

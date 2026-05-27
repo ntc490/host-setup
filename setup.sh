@@ -54,7 +54,7 @@ ALL=(
     tldr
     carbon-x1   # gated: only does anything on an Arch ThinkPad X1 Carbon
     #   arch-niri    # gated Arch-only niri Wayland desktop; off by default
-                     # (GUI + sets up the greetd login). Run: ./setup.sh arch-niri
+                     # (GUI + sets up the sddm login). Run: ./setup.sh arch-niri
 )
 
 # Baseline packages that don't (yet) warrant their own module. Installed

@@ -103,11 +103,11 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   hypridle/hyprlock (idle+lock), awww wallpaper, wl-clipboard/cliphist,
   grim/slurp, brightnessctl/pavucontrol/playerctl, xdg-desktop-portal-gtk/-gnome,
   fcitx5 + Mozc Japanese input (+ Noto/JetBrains fonts), kwallet/NetworkManager
-  secrets, and a **greetd + gtkgreet** greeter (run under `cage`). Notes: it
+  secrets, and an **SDDM** greeter. Notes: it
   **assumes `emacs`, `kitty`, and `locale` (ja_JP.UTF-8) come from their own
-  modules** and does not duplicate them; the greeter module enables greetd as the
+  modules** and does not duplicate them; the greeter module enables SDDM as the
   display manager (effective on the next reboot — roll back from a TTY with
-  `sudo systemctl disable greetd`); `config.kdl` assumes `$HOME=/home/ncrapo`.
+  `sudo systemctl disable sddm`); `config.kdl` assumes `$HOME=/home/ncrapo`.
   ThinkPad power (`tlp`) lives in the `carbon-x1` group, not here. swaylock and
   the niri repo's emacs config were intentionally not migrated. GUI/login can't
   be exercised by the container harness — only the Arch gate and syntax are
