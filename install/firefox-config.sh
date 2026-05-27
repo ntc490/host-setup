@@ -6,9 +6,11 @@
 # mechanisms:
 #   * policies.json — normal-installs uBlock Origin / Bitwarden / Video Speed
 #                     Controller / Vimium, disables the built-in password
-#                     manager entirely, and requests the Japanese (ja) UI locale
+#                     manager entirely, turns off telemetry + Firefox studies
+#                     (data collection), and requests the Japanese (ja) UI locale
 #   * autoconfig    — firefox.cfg + defaults/pref/autoconfig.js, flipping the
-#                     browser chrome into dark mode (no per-profile prefs)
+#                     browser chrome into dark mode and disabling crash-report
+#                     submission (no per-profile prefs)
 #
 # The ja langpack package and the autoconfig paths are Arch-specific, so this
 # module is Arch-only and a no-op elsewhere.
@@ -36,5 +38,6 @@ install_system_file "$HERE/firefox/autoconfig.js" /usr/lib/firefox/defaults/pref
 install_system_file "$HERE/firefox/firefox.cfg"   /usr/lib/firefox/firefox.cfg
 
 log "firefox configured: dark theme, ja UI, no built-in password manager,"
+log "  telemetry + studies + crash reports off,"
 log "  uBlock Origin + Bitwarden + Video Speed Controller + Vimium."
 log "  Extensions download on first launch; restart firefox if it's running."
