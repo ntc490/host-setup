@@ -8,6 +8,13 @@
       "Cryptomining": true,
       "Fingerprinting": true
     },
+    "DNSOverHTTPS": {
+      "Enabled": true,
+      "ProviderURL": "https://dns.quad9.net/dns-query",
+      "Fallback": true,
+      "Locked": false,
+      "ExcludedDomains": ["lan", "local"]
+    },
     "PasswordManagerEnabled": false,
     "RequestedLocales": ["ja"],
     "ExtensionSettings": {
