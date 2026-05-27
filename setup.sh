@@ -52,6 +52,7 @@ ALL=(
     ssh-agent   # gated: Arch-only (other distros leave the agent to the session)
     # wezterm   # not currently using it
     tldr
+    snapper     # gated: Arch + btrfs; snapper + snap-pac (creates @snapshots if absent)
     carbon-x1   # gated: only does anything on an Arch ThinkPad X1 Carbon
     #   arch-niri    # gated Arch-only niri Wayland desktop; off by default
                      # (GUI + sets up the sddm login). Run: ./setup.sh arch-niri
