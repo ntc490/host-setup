@@ -33,6 +33,11 @@ fi
 #export EDITOR='vim'
 export CMAKE_DEB="-DCMAKE_EXPORT_COMPILE_COMMANDS=Yes -DCMAKE_BUILD_TYPE=Debug"
 
+# Use Claude Code's classic renderer (normal screen buffer) instead of the
+# fullscreen alternate-screen TUI (default since v2.1.89), so its output lands
+# in the terminal/tmux scrollback and tmux copy-mode can scroll back through it.
+export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
+
 alias ls='eza --color=always --icons=always --group-directories-first --git'
 alias l='eza -lah --color=always --icons=always --group-directories-first --git'
 alias la='eza -la --color=always --icons=always --group-directories-first --git'
