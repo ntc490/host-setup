@@ -2,7 +2,7 @@
 # Rotate awww wallpaper from a directory at a fixed interval.
 # Override defaults via env vars: WALLPAPER_DIR, WALLPAPER_INTERVAL (seconds).
 
-DIR="${WALLPAPER_DIR:-$HOME/Wallpaper}"
+DIR="${WALLPAPER_DIR:-$HOME/Wallpaper/raw}"
 INTERVAL="${WALLPAPER_INTERVAL:-900}"
 
 # Wait up to 3s for awww-daemon's socket to be ready.
