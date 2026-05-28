@@ -58,6 +58,7 @@ ALL=(
     ufw         # host firewall: deny incoming + allow ssh/syncthing; ufw-capable distros only
     # wezterm   # not currently using it
     tldr
+    yay         # gated: Arch only; AUR helper (built via makepkg, skips if already present)
     snapper     # gated: Arch + btrfs; snapper + snap-pac (creates @snapshots if absent)
     carbon-x1   # gated: only does anything on an Arch ThinkPad X1 Carbon
     #   arch-niri    # gated Arch-only niri Wayland desktop; off by default
