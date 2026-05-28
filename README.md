@@ -62,6 +62,11 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **fd** — fd
 - **screen / tmux / tig** — package + dotfile
 - **eza / bat / fzf / htop / btop** — everyday shell tools (package only)
+- **fonts** — JetBrains Mono Nerd Font (terminal/editor monospace + the icons
+  `eza`/`starship`/kitty/waybar use) plus Noto base + CJK + emoji (Japanese
+  rendering + the "no tofu" fallback). The Nerd-patched font is Arch-only as a
+  package and warns+skips elsewhere; the Noto family is in every distro's repos
+  via the distro_pkg mapping. Skip on a headless box with `./setup.sh -x fonts`
 - **less / rsync** — pager, file sync (package only)
 - **ssh-server** — OpenSSH server (`openssh` on Arch, `openssh-server`
   elsewhere); generates host keys and enables the daemon (`sshd`, or `ssh` on

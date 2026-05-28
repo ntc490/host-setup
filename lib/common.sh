@@ -145,6 +145,24 @@ distro_pkg() {
                 debian) echo "clang clang-format clang-tidy" ;;
                 rhel)   echo "clang clang-tools-extra" ;;
             esac ;;
+        noto-fonts)
+            case "$DISTRO_FAMILY" in
+                arch)   echo "noto-fonts" ;;
+                debian) echo "fonts-noto-core" ;;
+                rhel)   echo "google-noto-sans-fonts" ;;
+            esac ;;
+        noto-fonts-cjk)
+            case "$DISTRO_FAMILY" in
+                arch)   echo "noto-fonts-cjk" ;;
+                debian) echo "fonts-noto-cjk" ;;
+                rhel)   echo "google-noto-sans-cjk-ttc-fonts" ;;   # appstream
+            esac ;;
+        noto-fonts-emoji)
+            case "$DISTRO_FAMILY" in
+                arch)   echo "noto-fonts-emoji" ;;
+                debian) echo "fonts-noto-color-emoji" ;;
+                rhel)   echo "google-noto-emoji-color-fonts" ;;
+            esac ;;
         *) echo "$1" ;;
     esac
 }

@@ -53,6 +53,7 @@ ALL=(
     htop
     btop
     kitty
+    fonts       # JetBrains Mono Nerd (Arch only) + Noto base/CJK/emoji (all distros via distro_pkg)
     less
     rsync
     ssh-server
