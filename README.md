@@ -15,6 +15,8 @@ repos are skipped with a warning.
 ./setup.sh             # install and configure everything
 ./setup.sh zsh emacs   # run only the named install scripts
 ./setup.sh -x less -x ag   # everything EXCEPT the named modules (-x repeatable)
+./setup.sh --list      # see every module with a one-line description
+./setup.sh --help      # usage + flags
 ```
 
 `setup.sh` runs every script in `install/` in order. You'll be prompted for

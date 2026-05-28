@@ -10,6 +10,8 @@
 #   ./setup.sh                 # run everything
 #   ./setup.sh zsh emacs       # run only the named install scripts
 #   ./setup.sh -x less -x ag   # run everything EXCEPT the named modules
+#   ./setup.sh --list          # list available modules with one-line descriptions
+#   ./setup.sh --help          # this usage text
 #
 # Package installs need root, so you'll be prompted for sudo (unless already
 # root, e.g. in a container).
@@ -19,7 +21,6 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 source "$HERE/lib/common.sh"
 require_supported
-log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 
 # Order matters a little: zsh first (sets up the shell + oh-my-zsh that the
 # z plugin and prompt expect), and dev-tools before emacs so the build toolchain
@@ -77,28 +78,75 @@ BASE_PKGS=(
     p7zip
 )
 
-# Enable extra repos (EPEL/CRB on rhel) + refresh apt lists up front, then
-# install stow which several scripts need.
-prepare_repos
-ensure_stow
+# --- introspection: --help / --list -----------------------------------------
+# Defined before parsing so both can exit fast (no prepare_repos, no sudo) on a
+# pure inspection request.
 
-# Parse args. Positional names = run only those. -x/--exclude <name> (repeatable)
-# drops a module from the run. With no positional names, the base set is the full
-# ALL list (a "full run"); excludes are subtracted from whichever set applies.
+print_usage() {
+    cat <<'EOF'
+Usage:
+  ./setup.sh                  # install + configure everything (the default ALL set)
+  ./setup.sh zsh emacs        # run only the named install scripts
+  ./setup.sh -x less -x ag    # run everything EXCEPT the named modules
+
+Options:
+  -x, --exclude <name>        skip this module (repeatable; -xless / --exclude less)
+  -l, --list                  list available modules with one-line descriptions
+  -h, --help                  show this help
+
+Sudo prompts may appear unless you're already root (e.g. in a container).
+EOF
+}
+
+# Each module's first non-shebang comment line is its description.
+_first_desc() {
+    sed -nE '/^#!/d; /^#/ { s/^#[[:space:]]?//; p; q; }' "$1" 2>/dev/null | cut -c1-78
+}
+
+list_modules() {
+    local -A in_all=()
+    local m f name desc fmt='  %-18s %s\n'
+    for m in "${ALL[@]}"; do in_all[$m]=1; done
+
+    echo "Default run (in order — these run on a bare \`./setup.sh\`):"
+    for m in "${ALL[@]}"; do
+        desc="$(_first_desc "$HERE/install/$m.sh")"
+        printf "$fmt" "$m" "$desc"
+    done
+
+    echo
+    echo "Available but not in the default run (run explicitly: ./setup.sh <name>):"
+    for f in "$HERE/install/"*.sh; do
+        name="$(basename "$f" .sh)"
+        [ -n "${in_all[$name]:-}" ] && continue
+        desc="$(_first_desc "$f")"
+        printf "$fmt" "$name" "$desc"
+    done
+}
+
+# --- arg parsing ------------------------------------------------------------
+# Positional names = run only those. -x/--exclude <name> (repeatable) drops a
+# module from the run. With no positional names, the base set is the full ALL
+# list (a "full run"); excludes are subtracted from whichever set applies.
+# --list / --help exit early without doing any setup work.
 excludes=()
 scripts=()
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -l|--list)    list_modules; exit 0 ;;
+        -h|--help)    print_usage;  exit 0 ;;
         -x|--exclude)
             shift; [[ $# -gt 0 ]] || { echo "setup.sh: --exclude needs a module name" >&2; exit 2; }
             excludes+=("$1") ;;
         -x*) excludes+=("${1#-x}") ;;        # also accept the glued form, -xless
         --)  shift; scripts+=("$@"); break ;;
-        -*)  echo "setup.sh: unknown option '$1'" >&2; exit 2 ;;
+        -*)  echo "setup.sh: unknown option '$1' (try --help)" >&2; exit 2 ;;
         *)   scripts+=("$1") ;;
     esac
     shift
 done
+
+log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 
 # No positional names -> full run of the ALL list (+ base packages below).
 full_run=0
@@ -128,6 +176,13 @@ fi
 if [[ ${#scripts[@]} -eq 0 ]]; then
     warn "nothing to run (everything excluded?)"
 fi
+
+# --- run --------------------------------------------------------------------
+# Enable extra repos (EPEL/CRB on rhel) + refresh apt lists, then ensure stow
+# (several scripts need it). Done after parsing so --list/--help don't trigger
+# them.
+prepare_repos
+ensure_stow
 
 # Full run also installs the baseline packages that don't have their own module.
 if [[ $full_run -eq 1 ]]; then
