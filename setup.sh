@@ -54,6 +54,7 @@ ALL=(
     rsync
     ssh-server
     ssh-agent   # gated: Arch-only (other distros leave the agent to the session)
+    ufw         # host firewall: deny incoming + allow ssh/syncthing; ufw-capable distros only
     # wezterm   # not currently using it
     tldr
     snapper     # gated: Arch + btrfs; snapper + snap-pac (creates @snapshots if absent)

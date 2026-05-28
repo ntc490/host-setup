@@ -69,6 +69,8 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **ssh-agent** — *Arch only* (no-op elsewhere): points `SSH_AUTH_SOCK` at the
   socket-activated `ssh-agent.socket` user unit (via `environment.d`) and enables
   it
+- **ufw** — host firewall: default-deny incoming / allow outgoing, opening SSH
+  and Syncthing; on the distros that ship ufw (Arch/Debian, EPEL on RHEL)
 - **firefox** — web browser, package only (`firefox-esr` on Debian)
 - **firefox-config** — *Arch only*: a system-wide managed Firefox config
   (support files in `install/firefox/`). A `policies.json` installs uBlock
