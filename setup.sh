@@ -41,6 +41,7 @@ ALL=(
     #   chromium          package only
     #   chromium-config   managed policy only (privacy, extensions, no pw manager)
     #   obsidian          markdown notes app (GUI; run explicitly: ./setup.sh obsidian)
+    #   discord           chat app (GUI; run explicitly: ./setup.sh discord)
     ag
     fd
     screen
