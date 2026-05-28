@@ -40,6 +40,7 @@ ALL=(
     #   chromium-all      package + managed policy (the usual choice)
     #   chromium          package only
     #   chromium-config   managed policy only (privacy, extensions, no pw manager)
+    #   obsidian          markdown notes app (GUI; run explicitly: ./setup.sh obsidian)
     ag
     fd
     screen

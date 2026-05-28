@@ -75,6 +75,8 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   weekly refresh timer
 - **yay** — *Arch only*: AUR helper, built from the AUR (convenience; the repo's
   own AUR installs don't need it)
+- **obsidian** — markdown notes app (Arch `extra`); a GUI app, **off by default**
+  in `setup.sh` — run `./setup.sh obsidian`
 - **firefox** — web browser, package only (`firefox-esr` on Debian)
 - **firefox-config** — *Arch only*: a system-wide managed Firefox config
   (support files in `install/firefox/`). A `policies.json` installs uBlock
