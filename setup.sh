@@ -87,6 +87,7 @@ print_usage() {
 Usage:
   ./setup.sh                  # install + configure everything (the default ALL set)
   ./setup.sh zsh emacs        # run only the named install scripts
+  ./setup.sh gui/niri/awww    # group members work by path (relative to install/)
   ./setup.sh -x less -x ag    # run everything EXCEPT the named modules
 
 Options:
@@ -105,7 +106,8 @@ _first_desc() {
 
 list_modules() {
     local -A in_all=()
-    local m f name desc fmt='  %-18s %s\n'
+    local m f name desc rel dir prev_dir
+    local fmt='  %-18s %s\n'
     for m in "${ALL[@]}"; do in_all[$m]=1; done
 
     echo "Default run (in order — these run on a bare \`./setup.sh\`):"
@@ -122,6 +124,22 @@ list_modules() {
         desc="$(_first_desc "$f")"
         printf "$fmt" "$name" "$desc"
     done
+
+    echo
+    echo "Group members (invoked by their group, or directly by path: ./setup.sh <path>):"
+    prev_dir=""
+    while IFS= read -r f; do
+        rel="${f#"$HERE/install/"}"
+        dir="${rel%/*}"
+        name="$(basename "$f" .sh)"
+        desc="$(_first_desc "$f")"
+        if [[ "$dir" != "$prev_dir" ]]; then
+            echo
+            echo "  $dir/"
+            prev_dir="$dir"
+        fi
+        printf '    %-18s %s\n' "$name" "$desc"
+    done < <(find "$HERE/install" -mindepth 2 -name '*.sh' -type f | sort)
 }
 
 # --- arg parsing ------------------------------------------------------------
