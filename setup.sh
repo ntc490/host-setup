@@ -28,6 +28,7 @@ log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 ALL=(
     git-config
     locale
+    reflector   # gated: Arch only; ranks pacman mirrors early so later installs are faster
     zsh
     fastfetch
     dev-tools

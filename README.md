@@ -71,6 +71,8 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   it
 - **ufw** — host firewall: default-deny incoming / allow outgoing, opening SSH
   and Syncthing; on the distros that ship ufw (Arch/Debian, EPEL on RHEL)
+- **reflector** — *Arch only*: ranks pacman's mirrorlist by speed and enables a
+  weekly refresh timer
 - **firefox** — web browser, package only (`firefox-esr` on Debian)
 - **firefox-config** — *Arch only*: a system-wide managed Firefox config
   (support files in `install/firefox/`). A `policies.json` installs uBlock
