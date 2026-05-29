@@ -1,31 +1,11 @@
-;; Improved config for KDE Wayland
+;; Generic fallback config, used on any machine we don't recognize in
+;; kanata.sh. No linux-dev line, so kanata grabs ALL keyboards -- the home-row
+;; mods work out of the box anywhere, but an external keyboard is remapped too.
+;; To pin to a machine's built-in keyboard, add a per-host config (e.g.
+;; kanata.carbon-x1.kbd) with its own linux-dev and a host_is branch in kanata.sh.
 (defcfg
   process-unmapped-keys yes
   concurrent-tap-hold yes
-  linux-dev /dev/input/by-path/platform-i8042-serio-0-event-kbd
 )
 
-(defsrc
-  caps a s d f j k l ;
-)
-
-(defvar
-  tap-time 150
-  hold-time 200
-)
-
-(defalias
-  ;; Removed f24 multi - this often causes issues
-  a (tap-hold $tap-time $hold-time a lmet)
-  s (tap-hold $tap-time $hold-time s lalt)
-  d (tap-hold $tap-time $hold-time d lsft)
-  f (tap-hold $tap-time $hold-time f lctl)
-  j (tap-hold $tap-time $hold-time j rctl)
-  k (tap-hold $tap-time $hold-time k rsft)
-  l (tap-hold $tap-time $hold-time l ralt)
-  ; (tap-hold $tap-time $hold-time ; rmet)
-)
-
-(deflayer base
-  tab @a @s @d @f @j @k @l @;
-)
+(include "kanata-common.kbd")

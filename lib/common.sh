@@ -40,12 +40,18 @@ require_supported() {
     fi
 }
 
-# host_is <substring> — true if this machine's DMI product family/version
-# contains <substring> (case-insensitive). Lets hardware-specific modules detect
-# the machine they belong to, e.g. `host_is "X1 Carbon"`.
+# host_is <substring> — true if any of this machine's DMI identity fields
+# (product family/version/name, board name) contains <substring>
+# (case-insensitive). Lets hardware-specific modules detect the machine they
+# belong to, e.g. `host_is "X1 Carbon"` (matches product_family) or
+# `host_is "X202EV"` (matches product_name/board_name where product_family is
+# just "X").
 host_is() {
     local want=$1 dmi
-    dmi="$(cat /sys/class/dmi/id/product_family /sys/class/dmi/id/product_version 2>/dev/null || true)"
+    dmi="$(cat /sys/class/dmi/id/product_family \
+               /sys/class/dmi/id/product_version \
+               /sys/class/dmi/id/product_name \
+               /sys/class/dmi/id/board_name 2>/dev/null || true)"
     case "${dmi,,}" in *"${want,,}"*) return 0 ;; *) return 1 ;; esac
 }
 
