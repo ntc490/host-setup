@@ -21,7 +21,7 @@ source "$CONF"
 MKICFG="$TARGET/etc/mkinitcpio.conf"
 [ -f "$MKICFG" ] || { warn "$MKICFG not found — pacstrap the base system first"; exit 1; }
 
-HOOKS_LINE='HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems)'
+HOOKS_LINE='HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)'
 
 log "Setting HOOKS in $MKICFG"
 if grep -qE '^HOOKS=' "$MKICFG"; then
