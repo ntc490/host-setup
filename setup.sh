@@ -57,6 +57,9 @@ ALL=(
     fonts       # JetBrains Mono Nerd (Arch only) + Noto base/CJK/emoji (all distros via distro_pkg)
     less
     rsync
+    tar
+    gzip
+    p7zip       # 7-Zip archiver; on Arch this is the official "7zip" package
     ssh-server
     ssh-agent   # gated: Arch-only (other distros leave the agent to the session)
     ufw         # host firewall: deny incoming + allow ssh/syncthing; ufw-capable distros only
@@ -68,15 +71,6 @@ ALL=(
     carbon-x1   # gated: only does anything on an Arch ThinkPad X1 Carbon
     #   arch-niri    # gated Arch-only niri Wayland desktop; off by default
                      # (GUI + sets up the sddm login). Run: ./setup.sh arch-niri
-)
-
-# Baseline packages that don't (yet) warrant their own module. Installed
-# directly on a full run; cross-distro names go through install_tool. Promote
-# any of these to a real module later if it needs config/service handling.
-BASE_PKGS=(
-    tar
-    gzip
-    p7zip
 )
 
 # --- introspection: --help / --list -----------------------------------------
@@ -167,10 +161,8 @@ done
 
 log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 
-# No positional names -> full run of the ALL list (+ base packages below).
-full_run=0
+# No positional names -> run the full ALL list.
 if [[ ${#scripts[@]} -eq 0 ]]; then
-    full_run=1
     scripts=("${ALL[@]}")
 fi
 
@@ -202,12 +194,6 @@ fi
 # them.
 prepare_repos
 ensure_stow
-
-# Full run also installs the baseline packages that don't have their own module.
-if [[ $full_run -eq 1 ]]; then
-    log "===== base packages ====="
-    for pkg in "${BASE_PKGS[@]}"; do install_tool "$pkg"; done
-fi
 
 for name in "${scripts[@]}"; do
     script="$HERE/install/${name}.sh"
