@@ -10,6 +10,24 @@ require_supported
 LANG_DEFAULT="en_US.UTF-8"
 LOCALES=("en_US.UTF-8 UTF-8" "ja_JP.UTF-8 UTF-8")   # ja_JP for Japanese input
 
+# prune_bad_locale_entries — remove malformed entries from locale.gen. A valid
+# uncommented line is "<locale> <charset>" (two fields); a charset-less line like
+# "en_US.UTF-8" (a classic archinstall / hand-edit leftover, NOT something this
+# script writes) makes locale-gen print `error: Bad entry 'en_US.UTF-8 '` on
+# every run and duplicates the real entry. Comments and blank lines are left
+# untouched. No-op (and quiet) when the file is already clean, so re-runs stay
+# idempotent.
+prune_bad_locale_entries() {
+    # An uncommented line carrying a single token (no charset) is malformed.
+    grep -qE '^[[:space:]]*[^[:space:]#]+[[:space:]]*$' /etc/locale.gen || return 0
+    log "Pruning malformed (charset-less) locale.gen entries"
+    $SUDO sed -i -E \
+        -e '/^[[:space:]]*#/b' \
+        -e '/^[[:space:]]*$/b' \
+        -e '/^[[:space:]]*[^[:space:]#]+[[:space:]]+[^[:space:]]/b' \
+        -e 'd' /etc/locale.gen
+}
+
 # ensure_locale "<glibc> <charset>" — uncomment or append the line in locale.gen.
 ensure_locale() {
     local entry=$1 key
@@ -27,6 +45,7 @@ ensure_locale() {
 # 1. Generate. Arch/Debian use /etc/locale.gen + locale-gen; RHEL ships locales
 #    via glibc and has no locale.gen, so just rely on those there.
 if [ -f /etc/locale.gen ]; then
+    prune_bad_locale_entries
     for entry in "${LOCALES[@]}"; do ensure_locale "$entry"; done
     if command -v locale-gen >/dev/null 2>&1; then
         log "Generating locales"
