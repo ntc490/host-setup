@@ -136,7 +136,13 @@ distro_pkg() {
         imagemagick)
             [ "$DISTRO_FAMILY" = rhel ] && echo "ImageMagick" || echo "imagemagick" ;;
         p7zip)
-            [ "$DISTRO_FAMILY" = debian ] && echo "p7zip-full" || echo "p7zip" ;;
+            # Arch dropped p7zip from its repos (2023) for the official "7zip"
+            # port; Debian splits the full CLI into p7zip-full; RHEL/EPEL keeps p7zip.
+            case "$DISTRO_FAMILY" in
+                arch)   echo "7zip" ;;
+                debian) echo "p7zip-full" ;;
+                *)      echo "p7zip" ;;
+            esac ;;
         openssh)
             [ "$DISTRO_FAMILY" = arch ] && echo "openssh" || echo "openssh-server" ;;
         base-devel)
