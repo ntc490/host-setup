@@ -189,6 +189,20 @@ if [[ ${#scripts[@]} -eq 0 ]]; then
 fi
 
 # --- run --------------------------------------------------------------------
+# Keep sudo's credential warm for the whole run. A full run has long, sudo-quiet
+# stretches (AUR compiles, emacs build) that can outlast the 15-min timestamp,
+# so the next sudo re-prompts. This refresher avoids that WITHOUT changing when
+# the first prompt happens: `sudo -n -v` only *extends* an already-authenticated
+# session (per-tty, shared by every module subprocess) and is a silent no-op
+# otherwise -- so a run that never needs root never prompts. The first real
+# prompt still comes from whichever module first calls sudo. Skipped when we're
+# already root (no sudo in play). The loop exits when this script does.
+if [ "$(id -u)" -ne 0 ]; then
+    ( while kill -0 "$$" 2>/dev/null; do sudo -n -v 2>/dev/null || true; sleep 60; done ) &
+    _sudo_keepalive_pid=$!
+    trap 'kill "$_sudo_keepalive_pid" 2>/dev/null || true' EXIT
+fi
+
 # Enable extra repos (EPEL/CRB on rhel) + refresh apt lists, then ensure stow
 # (several scripts need it). Done after parsing so --list/--help don't trigger
 # them.
