@@ -55,6 +55,7 @@ ALL=(
     btop
     kitty
     fonts       # JetBrains Mono Nerd (Arch only) + Noto base/CJK/emoji (all distros via distro_pkg)
+    wallpaper   # clones the personal wallpaper image collection into ~/Wallpaper (skip headless: -x wallpaper)
     less
     rsync
     tar
