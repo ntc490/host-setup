@@ -30,6 +30,7 @@ ALL=(
     git-config
     locale
     reflector   # gated: Arch only; ranks pacman mirrors early so later installs are faster
+    pacman-config  # gated: Arch only; Color/ILoveCandy/VerbosePkgLists + MAKEFLAGS=-j(nproc) before AUR builds
     zsh
     fastfetch
     dev-tools
