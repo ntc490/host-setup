@@ -1,0 +1,10 @@
+;; Lenovo ThinkPad X1 Carbon. linux-dev pins kanata to the built-in keyboard
+;; (the i8042 PS/2 port) so an external USB keyboard is left untouched. The
+;; home-row mods themselves live in the shared kanata-common.kbd.
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+  linux-dev /dev/input/by-path/platform-i8042-serio-0-event-kbd
+)
+
+(include "kanata-common.kbd")

@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=lockscreen
+Description=Dark login matching the hyprlock lock screen (date, big clock, login card)
+Author=Nathan Crapo
+License=MIT
+Type=sddm-theme
+Version=1.0
+# SDDM 0.21+ on Arch is a Qt6 build; this theme uses QtQuick.Controls and
+# Qt5Compat.GraphicalEffects (DropShadow), both Qt6 modules.
+QtVersion=6
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=
+Theme-Id=lockscreen
+Theme-API=2.0

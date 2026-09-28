@@ -1,3 +1,4 @@
 *~
 *.retry
 
+dotfiles/fcitx5/.config/fcitx5/conf/cached_layouts

@@ -1,59 +1,175 @@
-# Nathan's host-setup playbooks
+# Nathan's host-setup
 
-This repo consists of host configuration scripts and dotfiles.  It
-uses Ansible playbooks and roles.  You could modify the playbook to
-operate on remote machines, but I have written them for use on
-localhost.
+Bash scripts and dotfiles for reproducing my setup on a fresh machine.
+(This used to be an Ansible project; it was converted to plain bash since it
+only ever ran on localhost.)
 
-### Supported Distros
+Supports **Arch** (pacman), **Debian/Ubuntu** (apt), and **Rocky/RHEL/Fedora**
+(dnf). The distro is detected from `/etc/os-release`; package names that differ
+across distros are mapped automatically, and tools not available in a distro's
+repos are skipped with a warning.
 
-These distros should be well supported/tested:
+## Usage
 
-- Arch
-- Rocky9
-- MacOS via brew
+```sh
+./setup.sh                 # install and configure everything
+./setup.sh zsh emacs       # run only the named install scripts
+./setup.sh gui/niri/awww   # group members work by path (relative to install/)
+./setup.sh -x less -x ag   # everything EXCEPT the named modules (-x repeatable)
+./setup.sh --list          # see every module with a one-line description
+./setup.sh --help          # usage + flags
+```
 
-I don't use these distros as often. Use tags to skip things, etc.
+`setup.sh` runs every script in `install/` in order. You'll be prompted for
+sudo the first time it installs a package (no prompt if already root).
 
-- Ubuntu
+Everything is safe to re-run:
 
-### Including/Excluding Roles
+- packages use the package manager's idempotent install (`pacman -S --needed`,
+  `apt-get install`, `dnf install` — all skip what's present),
+- git clones use `git pull --rebase`,
+- dotfiles are symlinked with `stow --restow` (and any pre-existing real file
+  is backed up to `<file>.bak.<timestamp>` before linking),
+- the login-shell change is guarded so it only runs when needed.
 
-You can use Ansible tags to pick one or more items to setup on your
-system, or to skip certain items using the --tags and --skip-tags
-switches.  Use different playbooks to select gross categories of
-things.
+## Layout
 
-Here's an example:
+```
+setup.sh                  top-level orchestrator
+lib/common.sh             shared helpers (distro detection, package install +
+                          name mapping, clone-or-update, stow, vendor)
+install/*.sh              one script per tool; each installs its package(s)
+                          and stows its own dotfiles
+dotfiles/<pkg>/           GNU stow packages, laid out relative to $HOME
+vendor/                   bundled binaries / scripts that aren't config (wconf.py)
+test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
+```
 
-    ansible-playbook -t ssh-config --ask-sudo-pass main.yml
+## What gets installed
 
-### Rocky9
+- **git-config** — global git config: user identity, `rerere.enabled`,
+  `pull.rebase`, `push.autoSetupRemote`, `init.defaultBranch=master`,
+  `column.ui=auto`, and the `br`/`st`/`ci`/`co` aliases
+- **locale** — generates `en_US.UTF-8` + `ja_JP.UTF-8` and sets `LANG` to
+  `en_US.UTF-8` (otherwise you're left on systemd's `C.UTF-8` fallback)
+- **zsh** — zsh, oh-my-zsh + autosuggestions/syntax-highlighting,
+  `.zshrc`, and sets zsh as the login shell
+- **fastfetch** — system-info banner; `.zshrc` runs it at startup if present,
+  so it's optional and safe to skip
+- **emacs** — graphical Emacs (`emacs-wayland` pgtk build on Arch, `emacs`
+  elsewhere) + my [emacs.d](https://github.com/ntc490/emacs.d) config, with its
+  tree-sitter grammars compiled into `~/.emacs.d/tree-sitter`
+- **imagemagick** — image rendering used by Emacs (`imagemagick` on Arch/Debian,
+  `ImageMagick` on Fedora/RHEL)
+- **ag** — the_silver_searcher
+- **fd** — fd
+- **screen / tmux / tig** — package + dotfile
+- **eza / bat / fzf / htop / btop** — everyday shell tools (package only)
+- **fonts** — JetBrains Mono Nerd Font (terminal/editor monospace + the icons
+  `eza`/`starship`/kitty/waybar use) plus Noto base + CJK + emoji (Japanese
+  rendering + the "no tofu" fallback). The Nerd-patched font is Arch-only as a
+  package and warns+skips elsewhere; the Noto family is in every distro's repos
+  via the distro_pkg mapping. Skip on a headless box with `./setup.sh -x fonts`
+- **less / rsync** — pager, file sync (package only)
+- **ssh-server** — OpenSSH server (`openssh` on Arch, `openssh-server`
+  elsewhere); generates host keys and enables the daemon (`sshd`, or `ssh` on
+  Debian)
+- **ssh-agent** — *Arch only* (no-op elsewhere): points `SSH_AUTH_SOCK` at the
+  socket-activated `ssh-agent.socket` user unit (via `environment.d`) and enables
+  it
+- **ufw** — host firewall: default-deny incoming / allow outgoing, opening SSH
+  and Syncthing; on the distros that ship ufw (Arch/Debian, EPEL on RHEL)
+- **reflector** — *Arch only*: ranks pacman's mirrorlist by speed and enables a
+  weekly refresh timer
+- **yay** — *Arch only*: AUR helper, built from the AUR (convenience; the repo's
+  own AUR installs don't need it)
+- **obsidian** — markdown notes app (Arch `extra`); a GUI app, **off by default**
+  in `setup.sh` — run `./setup.sh obsidian`
+- **discord** — chat app (Arch `extra`); GUI, **off by default** — run
+  `./setup.sh discord` (use the Flatpak instead if the package's update-lag nags)
+- **firefox** — web browser, package only (`firefox-esr` on Debian)
+- **firefox-config** — *Arch only*: a system-wide managed Firefox config
+  (support files in `install/firefox/`). A `policies.json` installs uBlock
+  Origin, Bitwarden, Video Speed Controller, and Vimium, disables the built-in
+  password manager, turns off telemetry/studies, and requests the Japanese
+  (`ja`) UI locale (pulling in `firefox-i18n-ja`); an AutoConfig (`firefox.cfg`)
+  applies privacy prefs (no crash/sponsored content, HTTPS-Only). Dark UI
+  follows the desktop color-scheme (niri `appearance` module), not this config.
+  Assumes the firefox package is already installed
+- **firefox-all** — a *group* (not a package) that runs `firefox` then
+  `firefox-config`. All three firefox modules are **off by default** in
+  `setup.sh` (listed there commented out); run one explicitly, e.g.
+  `./setup.sh firefox-all`
+- **chromium** — web browser, package only
+- **chromium-config** — a system-wide managed Chromium policy (support file in
+  `install/chromium/`). A `policies.json` in `/etc/chromium/policies/managed/`
+  disables the built-in password manager, turns off metrics/crash reporting +
+  search suggestions + URL-keyed data collection + spellcheck service +
+  background mode, keeps Safe Browsing at *standard* (not *enhanced*), and
+  normal-installs Bitwarden, uBlock Origin Lite, Vimium, and Video Speed
+  Controller. (Dark UI isn't set here — Chromium follows the desktop
+  color-scheme set by the niri `appearance` module.) Assumes the chromium
+  package is already installed
+- **chromium-all** — a *group* that runs `chromium` then `chromium-config`. Like
+  the firefox set, all three chromium modules are **off by default** in
+  `setup.sh`; run one explicitly, e.g. `./setup.sh chromium-all`
+- **kitty** — terminal emulator (package, same name on all distros) + the
+  `~/.config/kitty/kitty.conf` dotfile
+- **wezterm** — package + `.wezterm.lua` + the `wconf.py` opacity helper
+- **base-devel / net-tools / doxygen / graphviz / cmake** — development packages
+- **clang-tools** — clang (clang-format, clang-tidy)
+- **dev-tools** — a *group* (not a package) that runs base-devel, net-tools,
+  doxygen, graphviz, cmake, and clang-tools. Call it with `./setup.sh dev-tools`.
+- **tldr** — simplified community man pages
+- **base packages** — `tar`, `gzip`, `p7zip` are installed directly on a full
+  run (the `BASE_PKGS` list in `setup.sh`), not as separate modules
+- **carbon-x1** — a *machine-specific group* for the Lenovo ThinkPad X1 Carbon
+  (Arch only). Gated on DMI + distro, so it's a no-op everywhere else. Runs the
+  members in `install/carbon-x1/` (`bt`: bluez + blueman + service; `sound`:
+  alsa-utils/sof-firmware + the PipeWire stack; `kanata`: AUR kanata + the
+  `kanata.kbd` config in `/etc` + a systemd unit, for home-row mods; `power`:
+  tlp + a 75-80% battery charge-threshold drop-in + systemd-rfkill mask). Add
+  more by dropping a `*.sh` in that directory.
+- **arch-niri** — an *Arch-only desktop group* for the niri (scrollable-tiling
+  Wayland) setup. Gated on Arch (no-op elsewhere) and **off by default**: it's
+  listed commented-out in `setup.sh`, so a full run never touches the desktop or
+  the login path. Run it explicitly with `./setup.sh arch-niri`. Members live in
+  `install/gui/niri/` and cover: niri compositor, waybar, fuzzel, mako,
+  hypridle/hyprlock (idle+lock), awww wallpaper, wl-clipboard/cliphist,
+  grim/slurp, brightnessctl/pavucontrol/playerctl, xdg-desktop-portal-gtk/-gnome,
+  fcitx5 + Mozc Japanese input (+ Noto/JetBrains fonts), kwallet/NetworkManager
+  secrets, and an **SDDM** greeter. Notes: it
+  **assumes `emacs`, `kitty`, and `locale` (ja_JP.UTF-8) come from their own
+  modules** and does not duplicate them; the greeter module enables SDDM as the
+  display manager (effective on the next reboot — roll back from a TTY with
+  `sudo systemctl disable sddm`); `config.kdl` assumes `$HOME=/home/ncrapo`.
+  ThinkPad power (`tlp`) lives in the `carbon-x1` group, not here. swaylock and
+  the niri repo's emacs config were intentionally not migrated. GUI/login can't
+  be exercised by the container harness — only the Arch gate and syntax are
+  CI-checkable.
 
-In order to get Rocky9 working, you have to run some commands before
-the 'main' Ansible Playbook will run. Maybe I will automate this in
-the future. However, it's a pretty fundamental requirement and doesn't
-appear to be easy to setup via Ansible.
+## Testing
 
-    sudo dnf config-manager --set-enabled crb
-    sudo dnf install \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
-        https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+`test/run-in-container.sh` runs `setup.sh` inside throwaway podman containers so
+you can verify changes across distros without touching the host. Each run
+executes `setup.sh` twice to confirm idempotency.
 
-### Modules
+```sh
+test/run-in-container.sh debian            # CLI-safe subset (default)
+test/run-in-container.sh rocky tmux tig    # only the named scripts
+test/run-in-container.sh all               # subset on arch, debian, and rocky
+test/run-in-container.sh debian full       # everything setup.sh knows about
+```
 
-See the roles directory structure to get an idea what's included in
-this repo.  The bulk of things are defined as roles.  Groupings of
-roles can be selected by using different playbooks at the root level
-of this repo.
+The default subset skips the heavy `emacs` build and the GUI `wezterm`; pass
+them explicitly (or `full`) to exercise those too.
 
-* Packages such as tmux, emacs, etc and their dotfiles
+## Notes
 
-
-### Dependencies
-
-You'll need ansible on your system to make use of the playbooks and
-roles.  Use the following command, or an equivalent, on your machine
-to get this awesome tool.
-
-    sudo apt install ansible
+- Per-distro availability: some tools aren't in every distro's repos and are
+  skipped with a warning — e.g. `eza`, `wezterm`, and `fastfetch` on Rocky;
+  `eza`/`fastfetch` on Debian 12; `wezterm` on Debian. On Rocky, EPEL + CRB are
+  enabled automatically to widen what's available.
+- `rtags` and `alacritty` from the old Ansible roles were intentionally dropped
+  (rtags is AUR-only; I've moved from alacritty to wezterm). They remain in git
+  history if needed.

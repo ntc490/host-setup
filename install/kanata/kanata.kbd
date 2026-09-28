@@ -1,0 +1,11 @@
+;; Generic fallback config, used on any machine we don't recognize in
+;; kanata.sh. No linux-dev line, so kanata grabs ALL keyboards -- the home-row
+;; mods work out of the box anywhere, but an external keyboard is remapped too.
+;; To pin to a machine's built-in keyboard, add a per-host config (e.g.
+;; kanata.carbon-x1.kbd) with its own linux-dev and a host_is branch in kanata.sh.
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+)
+
+(include "kanata-common.kbd")

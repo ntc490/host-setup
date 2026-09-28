@@ -1,0 +1,30 @@
+# Arch install configuration for the bootstrap/ helpers.
+#
+# Copy to install.conf and edit, then source it (the helpers do this for you):
+#   cp install.conf.example install.conf && $EDITOR install.conf
+#
+# This is plain shell — just variable assignments, no logic.
+
+# Block device to install onto, with NO partition suffix (e.g. /dev/nvme0n1,
+# /dev/sda). EVERYTHING on this disk is destroyed by the partition step.
+DISK="/dev/nvme0n1"
+
+# EFI System Partition size. 1GiB is generous and leaves room for multiple
+# kernels + initramfs living on the ESP (this layout mounts the ESP at /boot).
+ESP_SIZE="1GiB"
+
+# Hostname and the primary (wheel/sudo) user created during install.
+HOSTNAME="carbon"
+USERNAME="ncrapo"
+
+# Name of the opened LUKS mapping -> /dev/mapper/$CRYPT_NAME.
+CRYPT_NAME="cryptroot"
+
+# Where the target system is mounted during install.
+TARGET="/mnt"
+
+# btrfs mount options applied to every subvolume (the per-entry subvol=... is
+# appended automatically). Matches the existing layout. To enable transparent
+# compression on a fresh install, add it here, e.g.:
+#   BTRFS_OPTS="rw,relatime,ssd,space_cache=v2,compress=zstd:1"
+BTRFS_OPTS="rw,relatime,ssd,space_cache=v2"

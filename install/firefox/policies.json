@@ -1,0 +1,39 @@
+{
+  "policies": {
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Cryptomining": true,
+      "Fingerprinting": true
+    },
+    "DNSOverHTTPS": {
+      "Enabled": true,
+      "ProviderURL": "https://dns.quad9.net/dns-query",
+      "Fallback": true,
+      "Locked": false,
+      "ExcludedDomains": ["lan", "local"]
+    },
+    "PasswordManagerEnabled": false,
+    "RequestedLocales": ["ja"],
+    "ExtensionSettings": {
+      "uBlock0@raymondhill.net": {
+        "installation_mode": "normal_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+      },
+      "{446900e4-71c2-419f-a6a7-df9c091e268b}": {
+        "installation_mode": "normal_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi"
+      },
+      "{7be2ba16-0f1e-4d93-9ebc-5164397477a9}": {
+        "installation_mode": "normal_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/videospeed/latest.xpi"
+      },
+      "{d7742d87-e61d-4b78-b8a1-b469842139fa}": {
+        "installation_mode": "normal_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi"
+      }
+    }
+  }
+}
