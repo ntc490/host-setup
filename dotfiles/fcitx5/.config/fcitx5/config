@@ -1,34 +1,27 @@
 [Hotkey]
-# トグルキーの修飾キーを押し続けたときは列挙
+# Enumerate when holding modifier of Toggle key
 EnumerateWithTriggerKeys=True
-# 次の入力メソッドに切り替える
+# Activate Input Method
+ActivateKeys=
+# Deactivate Input Method
+DeactivateKeys=
+# Temporarily Toggle Input Method
+AltTriggerKeys=
+# Enumerate Input Method Forward
 EnumerateForwardKeys=
-# 前の入力メソッドに切り替える
+# Enumerate Input Method Backward
 EnumerateBackwardKeys=
-# 切り替え時は第1入力メソッドをスキップする
+# Skip first input method while enumerating
 EnumerateSkipFirst=False
-# 修飾キーのショートカットをトリガーするための時間制限（ミリ秒）
+# Enumerate Input Method Group Forward
+EnumerateGroupForwardKeys=
+# Enumerate Input Method Group Backward
+EnumerateGroupBackwardKeys=
+# Time limit in milliseconds for triggering modifier key shortcuts
 ModifierOnlyKeyTimeout=250
 
 [Hotkey/TriggerKeys]
 0=Control+Alt+Super+space
-1=Zenkaku_Hankaku
-2=Hangul
-
-[Hotkey/ActivateKeys]
-0=Hangul_Hanja
-
-[Hotkey/DeactivateKeys]
-0=Hangul_Romaja
-
-[Hotkey/AltTriggerKeys]
-0=Shift_L
-
-[Hotkey/EnumerateGroupForwardKeys]
-0=Super+space
-
-[Hotkey/EnumerateGroupBackwardKeys]
-0=Shift+Super+space
 
 [Hotkey/PrevPage]
 0=Up
@@ -46,27 +39,27 @@ ModifierOnlyKeyTimeout=250
 0=Control+Alt+P
 
 [Behavior]
-# デフォルトで有効にする
+# Activate input method by default
 ActiveByDefault=False
-# フォーカス時に状態をリセット
+# Reset state on Focus In
 resetStateWhenFocusIn=No
-# 入力状態を共有する
+# Share Input State
 ShareInputState=No
-# アプリケーションにプリエディットを表示する
+# Show preedit in application
 PreeditEnabledByDefault=True
-# 入力メソッドを切り替える際に入力メソッドの情報を表示する
-ShowInputMethodInformation=False
-# フォーカスを変更する際に入力メソッドの情報を表示する
+# Show Input Method Information when switch input method
+ShowInputMethodInformation=True
+# Show Input Method Information when changing focus
 showInputMethodInformationWhenFocusIn=False
-# 入力メソッドの情報をコンパクトに表示する
+# Show compact input method information
 CompactInputMethodInformation=True
-# 第1入力メソッドの情報を表示する
-ShowFirstInputMethodInformation=False
-# デフォルトのページサイズ
+# Show first input method information
+ShowFirstInputMethodInformation=True
+# Default Candidates per page
 DefaultPageSize=5
-# XKB オプションの上書き
+# Override XKB Option
 OverrideXkbOption=False
-# カスタム XKB オプション
+# Custom XKB Option
 CustomXkbOption=
 # Force Enabled Addons
 EnabledAddons=
@@ -74,10 +67,10 @@ EnabledAddons=
 DisabledAddons=
 # Preload input method to be used by default
 PreloadInputMethod=True
-# パスワード欄に入力メソッドを許可する
+# Allow input method in the password field
 AllowInputMethodForPassword=False
-# パスワード入力時にプリエディットテキストを表示する
+# Show preedit text when typing password
 ShowPreeditForPassword=False
-# ユーザーデータを保存する間隔（分）
+# Interval of saving user data in minutes
 AutoSavePeriod=30
 
