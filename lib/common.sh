@@ -2,9 +2,17 @@
 # Shared helpers for the host-setup install scripts.
 # Source this from any install/*.sh; it is safe to source more than once.
 #
-# Supports Arch (pacman), Debian/Ubuntu (apt), and Rocky/RHEL/Fedora (dnf).
+# Supports Arch (pacman), Debian/Ubuntu (apt), and Rocky/RHEL/Fedora (dnf),
+# plus macOS (brew) for the modules that make sense there.
 
 set -euo pipefail
+
+# macOS ships bash 3.2, which lacks features these scripts use (associative
+# arrays, ${var,,}). Homebrew's bash ahead of /bin on PATH fixes `env bash`.
+if [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+    echo "bash >= 4 required (found $BASH_VERSION). On macOS: brew install bash" >&2
+    exit 1
+fi
 
 # Repo layout (resolved relative to this file, so scripts work from anywhere).
 LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -23,19 +31,25 @@ if [ "$(id -u)" -eq 0 ]; then SUDO=""; else SUDO="sudo"; fi
 # Distro detection
 # ---------------------------------------------------------------------------
 # DISTRO_ID is the raw os-release ID (arch, debian, ubuntu, rocky, ...).
-# DISTRO_FAMILY collapses that to a package-manager family: arch|debian|rhel.
-DISTRO_ID="$(. /etc/os-release 2>/dev/null && echo "${ID:-unknown}")"
-_distro_like="$(. /etc/os-release 2>/dev/null && echo "${ID_LIKE:-}")"
+# DISTRO_FAMILY collapses that to a package-manager family:
+# arch|debian|rhel|macos.
 DISTRO_FAMILY=""
-case " $DISTRO_ID $_distro_like " in
-    *" arch "*|*" archlinux "*)            DISTRO_FAMILY="arch" ;;
-    *" debian "*|*" ubuntu "*)             DISTRO_FAMILY="debian" ;;
-    *" rhel "*|*" fedora "*|*" centos "*)  DISTRO_FAMILY="rhel" ;;
-esac
+if [ "$(uname -s)" = Darwin ]; then
+    DISTRO_ID="macos"
+    DISTRO_FAMILY="macos"
+else
+    DISTRO_ID="$(. /etc/os-release 2>/dev/null && echo "${ID:-unknown}")"
+    _distro_like="$(. /etc/os-release 2>/dev/null && echo "${ID_LIKE:-}")"
+    case " $DISTRO_ID $_distro_like " in
+        *" arch "*|*" archlinux "*)            DISTRO_FAMILY="arch" ;;
+        *" debian "*|*" ubuntu "*)             DISTRO_FAMILY="debian" ;;
+        *" rhel "*|*" fedora "*|*" centos "*)  DISTRO_FAMILY="rhel" ;;
+    esac
+fi
 
 require_supported() {
     if [ -z "$DISTRO_FAMILY" ]; then
-        echo "Unsupported distro (ID=$DISTRO_ID). Supported: arch, debian/ubuntu, rhel/rocky/fedora." >&2
+        echo "Unsupported distro (ID=$DISTRO_ID). Supported: arch, debian/ubuntu, rhel/rocky/fedora, macos." >&2
         exit 1
     fi
 }
@@ -106,6 +120,10 @@ install_pkgs() {
         rhel)
             log "dnf install $*"
             $SUDO dnf install -y "$@" ;;
+        macos)
+            # brew refuses to run as root, and skips what's already installed.
+            log "brew install $*"
+            brew install "$@" ;;
         *)
             warn "unknown distro family; cannot install: $*"; return 1 ;;
     esac
@@ -117,6 +135,7 @@ pkg_in_repo() {
         arch)   pacman -Si "$1" >/dev/null 2>&1 || pacman -Sg "$1" >/dev/null 2>&1 ;;
         debian) apt-cache show "$1" 2>/dev/null | grep -q '^Package:' ;;
         rhel)   $SUDO dnf -q info "$1" >/dev/null 2>&1 ;;
+        macos)  brew info --formula "$1" >/dev/null 2>&1 ;;
     esac
 }
 

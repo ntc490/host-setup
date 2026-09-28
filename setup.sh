@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Top-level entry point: set up this machine from scratch.
 #
-# Supports Arch, Debian/Ubuntu, and Rocky/RHEL/Fedora. Runs every script in
+# Supports Arch, Debian/Ubuntu, and Rocky/RHEL/Fedora (macOS: named modules
+# only, e.g. ./setup.sh zsh). Runs every script in
 # install/ in a sensible order. Each script is independently runnable and safe
 # to re-run (--needed/idempotent installs, git pull --rebase, stow --restow,
 # guarded shell changes).
@@ -163,7 +164,12 @@ done
 
 log "Detected distro: $DISTRO_ID (family: $DISTRO_FAMILY)"
 
-# No positional names -> run the full ALL list.
+# No positional names -> run the full ALL list. Most of ALL is Linux-only, so
+# on macOS require the modules to be named explicitly.
+if [[ ${#scripts[@]} -eq 0 && "$DISTRO_FAMILY" == macos ]]; then
+    echo "setup.sh: on macOS, name the modules to run (e.g. ./setup.sh zsh)" >&2
+    exit 2
+fi
 if [[ ${#scripts[@]} -eq 0 ]]; then
     scripts=("${ALL[@]}")
 fi

@@ -3,14 +3,16 @@
 source "$(dirname "$0")/../lib/common.sh"
 require_supported
 
-install_tool zsh
+# macOS already ships zsh as its default shell.
+[[ "$DISTRO_FAMILY" == macos ]] || install_tool zsh
 
 ZSH_DIR="$HOME/.oh-my-zsh"
-clone_or_update https://github.com/robbyrussell/oh-my-zsh.git "$ZSH_DIR"
 
 # Third-party plugins belong in $ZSH_CUSTOM/plugins, not oh-my-zsh's bundled
-# plugins/ dir (where they show up as untracked files in its checkout). Remove
-# clones left there by older versions of this module.
+# plugins/ dir. Remove clones left there by older versions of this module
+# (they have their own .git; oh-my-zsh's tracked copies don't). This must run
+# before updating oh-my-zsh: upstream now tracks these same paths, so the
+# stale untracked clones make its `git pull` abort.
 ZSH_CUSTOM_DIR="$ZSH_DIR/custom"
 for plugin in zsh-autosuggestions zsh-syntax-highlighting; do
     if [[ -d "$ZSH_DIR/plugins/$plugin/.git" ]]; then
@@ -18,6 +20,8 @@ for plugin in zsh-autosuggestions zsh-syntax-highlighting; do
         rm -rf "$ZSH_DIR/plugins/$plugin"
     fi
 done
+
+clone_or_update https://github.com/robbyrussell/oh-my-zsh.git "$ZSH_DIR"
 clone_or_update https://github.com/zsh-users/zsh-autosuggestions \
     "$ZSH_CUSTOM_DIR/plugins/zsh-autosuggestions"
 clone_or_update https://github.com/zsh-users/zsh-syntax-highlighting.git \
