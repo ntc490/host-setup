@@ -1,0 +1,40 @@
+[keys]
+prefix = "ctrl+h"
+
+# tmux binds ; to last-pane by default, so this chord means the same thing in
+# both tools. Herdr has no last_tab, and last_pane is the global back-and-forth.
+last_pane = "prefix+;"
+
+# tmux-style splits
+split_vertical = "prefix+%"
+split_horizontal = "prefix+\""
+
+# Agent attention queue. With ui.agent_panel_sort = "priority", prefix+a walks
+# to whichever agent needs attention next.
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
+
+# Workspaces are herdr's tmux-session analog; tmux uses ( and ) for prev/next
+# session. shift+1..9 jumps directly, one level up from prefix+1..9 for tabs.
+previous_workspace = "prefix+("
+next_workspace = "prefix+)"
+switch_workspace = "prefix+shift+1..9"
+
+[ui]
+# "priority" orders the agent panel as an attention queue instead of grouping
+# by space, which is what makes next_agent/previous_agent useful.
+agent_panel_sort = "priority"
+
+[ui.toast]
+delivery = "herdr"
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[ui.sidebar.spaces]
+rows = [
+  ["state_icon", "workspace"],
+  ["branch", "git_status"],
+  ["$claude_usage"],
+]

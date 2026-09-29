@@ -162,6 +162,11 @@ distro_pkg() {
                 debian) echo "p7zip-full" ;;
                 *)      echo "p7zip" ;;
             esac ;;
+        cargo)
+            case "$DISTRO_FAMILY" in
+                arch|macos) echo "rust" ;;
+                *)          echo "cargo" ;;
+            esac ;;
         openssh)
             [ "$DISTRO_FAMILY" = arch ] && echo "openssh" || echo "openssh-server" ;;
         base-devel)

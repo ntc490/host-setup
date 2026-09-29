@@ -49,6 +49,7 @@ ALL=(
     fd
     screen
     tmux
+    herdr       # herdr.dev binary + config.toml + plugins (+ Claude Code hooks if ~/.claude exists)
     tig
     eza
     bat

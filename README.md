@@ -9,6 +9,12 @@ Supports **Arch** (pacman), **Debian/Ubuntu** (apt), and **Rocky/RHEL/Fedora**
 across distros are mapped automatically, and tools not available in a distro's
 repos are skipped with a warning.
 
+**macOS** (Homebrew) is supported for individual modules only — currently
+`zsh` and `herdr`. It needs [Homebrew](https://brew.sh) and a modern bash
+(`brew install bash`, ahead of `/bin` on `PATH`, since macOS ships bash 3.2).
+A bare `./setup.sh` refuses to run there because the default set assumes
+Linux; name the modules instead, e.g. `./setup.sh zsh herdr`.
+
 ## Usage
 
 ```sh
@@ -64,6 +70,13 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **ag** — the_silver_searcher
 - **fd** — fd
 - **screen / tmux / tig** — package + dotfile
+- **herdr** — [herdr](https://herdr.dev) terminal workspace manager for AI
+  agents (Linux and macOS): installs the release binary into `~/.local/bin`
+  via the official installer (only when missing; `herdr update` upgrades it), stows
+  `~/.config/herdr/config.toml`, installs the navigator, reviewr, claude-usage,
+  and worktrunk plugins (plus cargo/python3/jq to build and run them), and, if
+  `~/.claude` exists, the Claude Code agent-state hooks. The worktrunk plugin
+  also needs the `wt` CLI, which isn't installed here
 - **eza / bat / fzf / htop / btop** — everyday shell tools (package only)
 - **fonts** — JetBrains Mono Nerd Font (terminal/editor monospace + the icons
   `eza`/`starship`/kitty/waybar use) plus Noto base + CJK + emoji (Japanese
