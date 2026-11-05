@@ -6,9 +6,11 @@ require_supported
 # Works on Linux and macOS. Plugin build/runtime deps: cargo builds
 # herdr-navigator, python3 runs claude-usage, jq is used by worktrunk's actions.
 [ "$DISTRO_FAMILY" = macos ] || install_tool curl   # macOS ships curl
-install_tool cargo
-install_tool python3
-install_tool jq
+# Skip anything already on PATH (e.g. cargo from rustup) rather than pulling
+# in a second, possibly source-built, copy from the package manager.
+for t in cargo python3 jq; do
+    command -v "$t" >/dev/null 2>&1 || install_tool "$t"
+done
 
 # herdr isn't packaged anywhere; the official installer drops a checksummed
 # release binary in ~/.local/bin. Only run it when missing — `herdr update`

@@ -121,9 +121,12 @@ install_pkgs() {
             log "dnf install $*"
             $SUDO dnf install -y "$@" ;;
         macos)
-            # brew refuses to run as root, and skips what's already installed.
+            # brew refuses to run as root. By default `brew install` also
+            # *upgrades* an outdated installed formula, which can cascade into
+            # source builds (e.g. rust -> llvm with no bottle for this macOS).
+            # Setup should only fill gaps; upgrades are `brew upgrade`'s job.
             log "brew install $*"
-            brew install "$@" ;;
+            HOMEBREW_NO_INSTALL_UPGRADE=1 brew install "$@" ;;
         *)
             warn "unknown distro family; cannot install: $*"; return 1 ;;
     esac
