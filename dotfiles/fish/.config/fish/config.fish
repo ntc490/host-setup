@@ -10,8 +10,6 @@ end
 fish_add_path --global --move --path $HOME/bin $HOME/.local/bin
 
 set -gx EDITOR emacs
-# A list, so `cmake $CMAKE_DEB ..` passes two -D arguments.
-set -gx CMAKE_DEB -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes -DCMAKE_BUILD_TYPE=Debug
 
 status is-interactive; or return
 
