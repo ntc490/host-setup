@@ -23,6 +23,7 @@ if command -q eza
     abbr -a l 'eza -lah --color=always --icons=always --group-directories-first --git'
     abbr -a la 'eza -la --color=always --icons=always --group-directories-first --git'
     abbr -a ll 'eza -l --color=always --icons=always --group-directories-first --git'
+    abbr -a llm 'eza -l --color=always --icons=always --group-directories-first --git -s modified'
     abbr -a lt 'eza -aT --color=always --icons=always --group-directories-first --git'
 end
 
