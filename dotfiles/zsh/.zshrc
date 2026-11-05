@@ -3,14 +3,6 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 # Use powerline
 USE_POWERLINE="true"
-# Source manjaro-zsh-configuration
-if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
-    source /usr/share/zsh/manjaro-zsh-config
-fi
-# Use manjaro zsh prompt
-if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
-    source /usr/share/zsh/manjaro-zsh-prompt
-fi
 
 # Greeting banner, only if fastfetch is installed (it's an optional component).
 if command -v fastfetch > /dev/null 2>&1; then
@@ -39,14 +31,6 @@ then
     export SSH_AUTH_SOCK=$SOCK
 fi
 
-#export EDITOR='vim'
-export CMAKE_DEB="-DCMAKE_EXPORT_COMPILE_COMMANDS=Yes -DCMAKE_BUILD_TYPE=Debug"
-
-# Use Claude Code's classic renderer (normal screen buffer) instead of the
-# fullscreen alternate-screen TUI (default since v2.1.89), so its output lands
-# in the terminal/tmux scrollback and tmux copy-mode can scroll back through it.
-# Now set as "tui": "default" in ~/.claude/settings.json instead.
-#export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
 export EDITOR='emacs -nw'
 
 alias ls='eza --color=always --icons=always --group-directories-first --git'
