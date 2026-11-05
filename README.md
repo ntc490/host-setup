@@ -60,6 +60,11 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
   `en_US.UTF-8` (otherwise you're left on systemd's `C.UTF-8` fallback)
 - **zsh** — zsh, oh-my-zsh + autosuggestions/syntax-highlighting,
   `.zshrc`, and sets zsh as the login shell
+- **fish** — fish + `~/.config/fish` mirroring `.zshrc` (PATH, `EDITOR`,
+  fastfetch greeting, eza abbreviations, ssh-agent socket link), a hand-picked
+  subset of oh-my-zsh's git aliases as fish abbreviations, fzf bindings, and
+  zoxide for `z` (imports `~/.z`). **Off by default** — run `./setup.sh fish`.
+  It doesn't change the login shell
 - **fastfetch** — system-info banner; `.zshrc` runs it at startup if present,
   so it's optional and safe to skip
 - **emacs** — graphical Emacs (`emacs-wayland` pgtk build on Arch, `emacs`

@@ -33,6 +33,7 @@ ALL=(
     reflector   # gated: Arch only; ranks pacman mirrors early so later installs are faster
     pacman-config  # gated: Arch only; Color/ILoveCandy/VerbosePkgLists + MAKEFLAGS=-j(nproc) before AUR builds
     zsh
+    #   fish      trying it out alongside zsh; run explicitly: ./setup.sh fish
     fastfetch
     dev-tools
     emacs
