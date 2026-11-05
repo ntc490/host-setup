@@ -27,6 +27,10 @@ if command -q eza
     abbr -a lt 'eza -aT --color=always --icons=always --group-directories-first --git'
 end
 
+function clip
+    printf '\e]52;c;%s\a' (cat $argv | base64 | string join '')
+end
+
 # Ctrl-R history, Ctrl-T file and Alt-C cd pickers.
 command -q fzf; and fzf --fish | source
 # `z` jumping, standing in for oh-my-zsh's z plugin (install/fish.sh imports ~/.z).
