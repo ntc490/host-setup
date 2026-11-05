@@ -47,6 +47,7 @@ export CMAKE_DEB="-DCMAKE_EXPORT_COMPILE_COMMANDS=Yes -DCMAKE_BUILD_TYPE=Debug"
 # in the terminal/tmux scrollback and tmux copy-mode can scroll back through it.
 # Now set as "tui": "default" in ~/.claude/settings.json instead.
 #export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
+export EDITOR='emacs -nw'
 
 alias ls='eza --color=always --icons=always --group-directories-first --git'
 alias l='eza -lah --color=always --icons=always --group-directories-first --git'

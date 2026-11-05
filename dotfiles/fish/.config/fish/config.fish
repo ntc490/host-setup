@@ -9,7 +9,7 @@ if test -x /opt/homebrew/bin/brew
 end
 fish_add_path --global --move --path $HOME/bin $HOME/.local/bin
 
-set -gx EDITOR emacs
+set -gx EDITOR 'emacs -nw'
 
 status is-interactive; or return
 
