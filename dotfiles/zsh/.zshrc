@@ -35,11 +35,17 @@ clip() { printf '\033]52;c;%s\a' "$(cat "$@" | base64 | tr -d '\n')"; }
 
 export EDITOR='emacs -nw'
 
-alias ls='eza --color=always --icons=always --group-directories-first --git'
-alias l='eza -lah --color=always --icons=always --group-directories-first --git'
-alias la='eza -la --color=always --icons=always --group-directories-first --git'
-alias ll='eza -l --color=always --icons=always --group-directories-first --git'
-alias llm='eza -l --color=always --icons=always --group-directories-first --git -s modified'
-alias lt='eza -aT --color=always --icons=always --group-directories-first --git'
+alias ls='eza --color=always --icons=always --group-directories-first'
+alias lsg='eza --color=always --icons=always --group-directories-first --git'
+alias l='eza -lah --color=always --icons=always --group-directories-first'
+alias lg='eza -lah --color=always --icons=always --group-directories-first --git'
+alias la='eza -la --color=always --icons=always --group-directories-first'
+alias lag='eza -la --color=always --icons=always --group-directories-first --git'
+alias ll='eza -l --color=always --icons=always --group-directories-first'
+alias llg='eza -l --color=always --icons=always --group-directories-first --git'
+alias llm='eza -l --color=always --icons=always --group-directories-first -s modified'
+alias llmg='eza -l --color=always --icons=always --group-directories-first -s modified --git'
+alias lt='eza -aT --color=always --icons=always --group-directories-first'
+alias ltg='eza -aT --color=always --icons=always --group-directories-first --git'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
