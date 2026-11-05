@@ -31,6 +31,8 @@ then
     export SSH_AUTH_SOCK=$SOCK
 fi
 
+clip() { printf '\033]52;c;%s\a' "$(cat "$@" | base64 | tr -d '\n')"; }
+
 export EDITOR='emacs -nw'
 
 alias ls='eza --color=always --icons=always --group-directories-first --git'
