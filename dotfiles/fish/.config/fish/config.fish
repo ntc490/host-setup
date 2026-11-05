@@ -19,12 +19,18 @@ function fish_greeting
 end
 
 if command -q eza
-    abbr -a ls 'eza --color=always --icons=always --group-directories-first --git'
-    abbr -a l 'eza -lah --color=always --icons=always --group-directories-first --git'
-    abbr -a la 'eza -la --color=always --icons=always --group-directories-first --git'
-    abbr -a ll 'eza -l --color=always --icons=always --group-directories-first --git'
-    abbr -a llm 'eza -l --color=always --icons=always --group-directories-first --git -s modified'
-    abbr -a lt 'eza -aT --color=always --icons=always --group-directories-first --git'
+    abbr -a ls 'eza --color=always --icons=always --group-directories-first'
+    abbr -a lsg 'eza --color=always --icons=always --group-directories-first --git'
+    abbr -a l 'eza -lah --color=always --icons=always --group-directories-first'
+    abbr -a lg 'eza -lah --color=always --icons=always --group-directories-first --git'
+    abbr -a la 'eza -la --color=always --icons=always --group-directories-first'
+    abbr -a lag 'eza -la --color=always --icons=always --group-directories-first --git'
+    abbr -a ll 'eza -l --color=always --icons=always --group-directories-first'
+    abbr -a llg 'eza -l --color=always --icons=always --group-directories-first --git'
+    abbr -a llm 'eza -l --color=always --icons=always --group-directories-first -s modified'
+    abbr -a llmg 'eza -l --color=always --icons=always --group-directories-first -s modified --git'
+    abbr -a lt 'eza -aT --color=always --icons=always --group-directories-first'
+    abbr -a ltg 'eza -aT --color=always --icons=always --group-directories-first --git'
 end
 
 function clip
