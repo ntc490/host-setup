@@ -1,46 +1,138 @@
-;;; macos_home_row.kbd - Kanata home-row mods only
+;; Kanata config for the MacBook Pro built-in keyboard, mirroring the Kubocho
+;; QMK "default" keymap and the X1 Carbon kanata config.
+;; Requires kanata >= 1.12.0 (defhands, tap-hold-opposite-hand*, prior-idle).
+;;
+;; Differences from the X1 Carbon file (everything else is identical):
+;;   - defcfg: no linux-dev; see the macos-dev-names-include note below
+;;   - Power layer Home/End -> Cmd+Left / Cmd+Right (line start/end on macOS)
+;;   - the old "(multi f24 ...)" wrappers are gone (see note at the bottom)
+;;
+;; QMK setting                    -> kanata equivalent used here
+;;   TAPPING_TERM 220             -> $hold-time 220
+;;   PERMISSIVE_HOLD+CHORDAL_HOLD -> tap-hold-opposite-hand-release + defhands
+;;   FLOW_TAP_TERM 150            -> tap-hold-require-prior-idle 150
+;;   thumbs '*' in chordal layout -> (unknown-hand hold): keys not in defhands
+;;                                   (space, Tab, Return, Delete, ...) can
+;;                                   complete a hold, e.g. Shift(d) + Space
+;;
+;; Layers (same positions as the Kubocho):
+;;   hold G or H -> nums    hold T -> fkeys    hold Caps -> power (tap = Tab)
+;; Chord: C+V = Backspace (not on the nums layer, where C/V are Esc/[ ).
+;;
+;; Safety: kanata exits if you hold Left Ctrl + Space + Esc (physical keys).
 
 (defcfg
   process-unmapped-keys yes
-  concurrent-tap-hold yes
+  concurrent-tap-hold yes           ;; also required by defchordsv2
+  tap-hold-require-prior-idle 150   ;; = QMK FLOW_TAP_TERM
+
+  ;; Without a device filter kanata grabs EVERY keyboard on macOS, so a
+  ;; plugged-in Kubocho would get these home row mods on top of its own.
+  ;; Run `sudo kanata --list` to see device names, then uncomment and adjust:
+  macos-dev-names-include ("Apple Internal Keyboard / Trackpad")
 )
 
-;; Timing variables
-(defvar
-  tap-time 200
-  hold-time 250
-)
+(defhands
+  (left  q w e r t a s d f g z x c v b)
+  (right y u i o p h j k l ; n m , . /))
 
-;; Keys to intercept
 (defsrc
-  caps a s d f j k l ;
+  caps
+  q    w    e    r    t    y    u    i    o    p
+  a    s    d    f    g    h    j    k    l    ;
+  z    x    c    v    b    n    m    ,    .    /
+  spc
 )
 
-;; Home-row mod aliases
+(defvar
+  hold-time 220
+)
+
 (defalias
-  core-a (tap-hold $tap-time $hold-time a lmet)
-  core-s (tap-hold $tap-time $hold-time s lalt)
-  core-d (tap-hold $tap-time $hold-time d lsft)
-  core-f (tap-hold $tap-time $hold-time f lctl)
-  core-j (tap-hold $tap-time $hold-time j lctl)
-  core-k (tap-hold $tap-time $hold-time k lsft)
-  core-l (tap-hold $tap-time $hold-time l lalt)
-  core-; (tap-hold $tap-time $hold-time ; lmet)
+  ;; Home row mods: Cmd Opt Shift Ctrl | Ctrl Shift Opt Cmd (as on the Kubocho;
+  ;; right Shift on K so both shifts are distinct)
+  a (tap-hold-opposite-hand-release $hold-time a lmet (timeout hold) (unknown-hand hold))
+  s (tap-hold-opposite-hand-release $hold-time s lalt (timeout hold) (unknown-hand hold))
+  d (tap-hold-opposite-hand-release $hold-time d lsft (timeout hold) (unknown-hand hold))
+  f (tap-hold-opposite-hand-release $hold-time f lctl (timeout hold) (unknown-hand hold))
+  j (tap-hold-opposite-hand-release $hold-time j lctl (timeout hold) (unknown-hand hold))
+  k (tap-hold-opposite-hand-release $hold-time k rsft (timeout hold) (unknown-hand hold))
+  l (tap-hold-opposite-hand-release $hold-time l lalt (timeout hold) (unknown-hand hold))
+  ; (tap-hold-opposite-hand-release $hold-time ; lmet (timeout hold) (unknown-hand hold))
+
+  ;; Layer taps. Opposite-hand rule as on the Kubocho: hold G (left) for the
+  ;; right-hand numpad, H (right) for the left-hand symbols, T for F-keys.
+  nums (layer-while-held nums)
+  fkys (layer-while-held fkeys)
+  pwr  (layer-while-held power)
+  g (tap-hold-opposite-hand-release $hold-time g @nums (timeout hold) (unknown-hand hold))
+  h (tap-hold-opposite-hand-release $hold-time h @nums (timeout hold) (unknown-hand hold))
+  t (tap-hold-opposite-hand-release $hold-time t @fkys (timeout hold) (unknown-hand hold))
+
+  ;; Caps: Tab on tap, Power layer on hold. Caps isn't in defhands, so plain
+  ;; tap-hold-release; no prior-idle so the layer is reachable right after typing.
+  ctab (tap-hold-release $hold-time $hold-time tab @pwr (require-prior-idle 0))
+
+  ;; Numbers-layer mods (right hand) and Ctrl/{ on F
+  n4 (tap-hold-opposite-hand-release $hold-time 4 lctl (timeout hold) (unknown-hand hold))
+  n5 (tap-hold-opposite-hand-release $hold-time 5 rsft (timeout hold) (unknown-hand hold))
+  n6 (tap-hold-opposite-hand-release $hold-time 6 lalt (timeout hold) (unknown-hand hold))
+  nq (tap-hold-opposite-hand-release $hold-time ' lmet (timeout hold) (unknown-hand hold))
+  lcb (tap-hold-opposite-hand-release $hold-time S-[ lctl (timeout hold) (unknown-hand hold))
+  rcb S-]
+
+  ;; Power layer actions
+  cw    (caps-word-toggle 5000)   ;; Caps Word (QMK: CW_TOGG / hold D+K)
+  nxtw  M-grv                     ;; next window of the same app (Cmd+`)
+  lhome M-left                    ;; start of line (Cmd+Left)
+  lend  M-rght                    ;; end of line (Cmd+Right)
+  scrlb (macro C-h [ C-b)         ;; tmux/herdr scrollback: prefix, copy mode, page up
 )
 
-;; macOS aliases (multi f24)
-(defalias
-  a (multi f24 @core-a)
-  s (multi f24 @core-s)
-  d (multi f24 @core-d)
-  f (multi f24 @core-f)
-  j (multi f24 @core-j)
-  k (multi f24 @core-k)
-  l (multi f24 @core-l)
-  \; (multi f24 @core-;)
+(defchordsv2
+  (c v) bspc 50 all-released (nums)
 )
 
-;; Base layer
 (deflayer base
-  tab @a @s @d @f @j @k @l @\;
+  @ctab
+  q    w    e    r    @t   y    u    i    o    p
+  @a   @s   @d   @f   @g   @h   @j   @k   @l   @;
+  z    x    c    v    b    n    m    ,    .    /
+  spc
 )
+
+;; Numbers: same as the Kubocho NUMS layer. Blank left home row keeps the
+;; base home row mods; Space = 0 (the Kubocho has 0 on the Space thumb).
+(deflayer nums
+  _
+  grv  _    _    S-9  S-0  =    7    8    9    \
+  _    _    _    @lcb @rcb -    @n4  @n5  @n6  @nq
+  _    _    esc  [    ]    .    1    2    3    _
+  0
+)
+
+;; F-keys: on a MacBook the function row may need the Fn key or "Use F1, F2,
+;; etc. as standard function keys"; kanata sends real F-key codes here.
+(deflayer fkeys
+  _
+  _    _    _    _    _    f10  f7   f8   f9   f13
+  _    _    _    _    _    f11  f4   f5   f6   f14
+  _    _    _    _    _    f12  f1   f2   f3   f15
+  _
+)
+
+;; Power: Caps Lock / Caps Word on the left; paging, scrollback, arrows,
+;; next-window, line start/end on the right.
+;; (macOS adds a short delay to Caps Lock, so hold the caps key a beat longer.)
+(deflayer power
+  _
+  _    _    _    _    _    pgdn pgup @scrlb _   _
+  caps @cw  _    _    _    left down up   rght _
+  _    _    _    _    _    @nxtw @lhome @lend _ _
+  _
+)
+
+;; Note on "(multi f24 ...)": the old macbook config wrapped each home row mod
+;; in (multi f24 ...). The Linux config dropped that because it "often causes
+;; issues", and nothing here relies on it. If you had a macOS-specific reason
+;; for it, wrap the a/s/d/f/j/k/l/; aliases the same way again.
