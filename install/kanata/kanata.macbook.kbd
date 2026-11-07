@@ -1,0 +1,46 @@
+;;; macos_home_row.kbd - Kanata home-row mods only
+
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+)
+
+;; Timing variables
+(defvar
+  tap-time 200
+  hold-time 250
+)
+
+;; Keys to intercept
+(defsrc
+  caps a s d f j k l ;
+)
+
+;; Home-row mod aliases
+(defalias
+  core-a (tap-hold $tap-time $hold-time a lmet)
+  core-s (tap-hold $tap-time $hold-time s lalt)
+  core-d (tap-hold $tap-time $hold-time d lsft)
+  core-f (tap-hold $tap-time $hold-time f lctl)
+  core-j (tap-hold $tap-time $hold-time j lctl)
+  core-k (tap-hold $tap-time $hold-time k lsft)
+  core-l (tap-hold $tap-time $hold-time l lalt)
+  core-; (tap-hold $tap-time $hold-time ; lmet)
+)
+
+;; macOS aliases (multi f24)
+(defalias
+  a (multi f24 @core-a)
+  s (multi f24 @core-s)
+  d (multi f24 @core-d)
+  f (multi f24 @core-f)
+  j (multi f24 @core-j)
+  k (multi f24 @core-k)
+  l (multi f24 @core-l)
+  \; (multi f24 @core-;)
+)
+
+;; Base layer
+(deflayer base
+  tab @a @s @d @f @j @k @l @\;
+)
