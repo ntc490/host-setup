@@ -61,7 +61,7 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **zsh** — zsh, oh-my-zsh + autosuggestions/syntax-highlighting,
   `.zshrc`, and sets zsh as the login shell
 - **fish** — fish + `~/.config/fish` mirroring `.zshrc` (PATH, `EDITOR`,
-  fastfetch greeting, eza abbreviations, ssh-agent socket link), a hand-picked
+  fastfetch greeting, eza abbreviations, ssh-agent socket selection), a hand-picked
   subset of oh-my-zsh's git aliases as fish abbreviations, fzf bindings, and
   zoxide for `z` (imports `~/.z`). **Off by default** — run `./setup.sh fish`.
   It doesn't change the login shell
@@ -95,6 +95,11 @@ test/run-in-container.sh  run setup.sh in throwaway podman containers per distro
 - **ssh-agent** — *Arch only* (no-op elsewhere): points `SSH_AUTH_SOCK` at the
   socket-activated `ssh-agent.socket` user unit (via `environment.d`) and enables
   it
+- **ssh-rc** — `~/.ssh/rc`, which sshd runs on every login: it points
+  `~/.ssh/agent.sock` at the connection's forwarded agent when that agent holds
+  a key listed in `~/.ssh/agent-owner-keys`. zsh and fish use the link, so herdr
+  panes keep reaching an agent after the login they started under ends. Touch
+  `~/.ssh/agent-nolink` to opt a host out
 - **ufw** — host firewall: default-deny incoming / allow outgoing, opening SSH
   and Syncthing; on the distros that ship ufw (Arch/Debian, EPEL on RHEL)
 - **reflector** — *Arch only*: ranks pacman's mirrorlist by speed and enables a

@@ -67,6 +67,7 @@ ALL=(
     p7zip       # 7-Zip archiver; on Arch this is the official "7zip" package
     ssh-server
     ssh-agent   # gated: Arch-only (other distros leave the agent to the session)
+    ssh-rc      # ~/.ssh/rc: stable ~/.ssh/agent.sock for forwarded agents (herdr panes)
     ufw         # host firewall: deny incoming + allow ssh/syncthing; ufw-capable distros only
     # wezterm   # not currently using it
     tldr

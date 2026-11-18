@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# fish shell + a config mirroring .zshrc (git/eza abbrs, ssh-agent link) + zoxide.
+# fish shell + a config mirroring .zshrc (git/eza abbrs, ssh-agent socket) + zoxide.
 # Leaves the login shell alone: zsh.sh switches it back to zsh whenever it
 # isn't zsh.
 source "$(dirname "$0")/../lib/common.sh"
